@@ -1,0 +1,1 @@
+This repository is meant to be used for the development of the Datorteknik project by group 26
