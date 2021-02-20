@@ -160,6 +160,10 @@ void display_image(int x, const uint8_t *data) {
 	}
 }
 
+void display_pixel(int x, int y) {
+  
+}
+
 void display_update(void) {
 	int i, j, k;
 	int c;
