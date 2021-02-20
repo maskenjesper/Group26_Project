@@ -9,9 +9,8 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "mipslab.h"  /* Declatations for these labs */
 
-int main(void) {
+int main() {
         /*
 	  This will set the peripheral bus clock to the same frequency
 	  as the sysclock. That means 80 MHz, when the microcontroller
@@ -53,21 +52,9 @@ int main(void) {
 	SPI2CONSET = 0x20;
 	/* SPI2CON bit ON = 1; */
 	SPI2CONSET = 0x8000;
-	
-	display_init();
-	display_string(0, "KTH/ICT lab");
-	display_string(1, "in Computer");
-	display_string(2, "Engineering");
-	display_string(3, "Welcome!");
-	display_update();
-	
-	display_image(96, icon);
-	
-	labinit(); /* Do any lab-specific initialization */
-
-	while( 1 )
-	{
-	  labwork(); /* Do lab-specific things again and again */
-	}
 	return 0;
+}
+
+void user_isr () {
+
 }
