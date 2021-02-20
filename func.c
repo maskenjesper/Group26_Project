@@ -8,18 +8,6 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "lib.h"  /* Declatations for these labs */
 
-#define DISPLAY_CHANGE_TO_COMMAND_MODE (PORTFCLR = 0x10)
-#define DISPLAY_CHANGE_TO_DATA_MODE (PORTFSET = 0x10)
-
-#define DISPLAY_ACTIVATE_RESET (PORTGCLR = 0x200)
-#define DISPLAY_DO_NOT_RESET (PORTGSET = 0x200)
-
-#define DISPLAY_ACTIVATE_VDD (PORTFCLR = 0x40)
-#define DISPLAY_ACTIVATE_VBAT (PORTFCLR = 0x20)
-
-#define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
-#define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
-
 /* quicksleep:
     A simple function to create a small delay.
     Very inefficient use of computing resources,
@@ -127,6 +115,72 @@ void display_update (void) {
 
 ///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
 
+void init () {
+    /*
+	  This will set the peripheral bus clock to the same frequency
+	  as the sysclock. That means 80 MHz, when the microcontroller
+	  is running at 80 MHz. Changed 2017, as recommended by Axel.
+	*/
+	SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
+	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
+	while (OSCCON & (1 << 21)); /* Wait until PBDIV ready */
+	OSCCONCLR = 0x180000; /* clear PBDIV bit <0,1> */
+	while (OSCCON & (1 << 21));  /* Wait until PBDIV ready */
+	SYSKEY = 0x0;  /* Lock OSCCON */
+	
+	/* Set up output pins */
+	AD1PCFG = 0xFFFF;
+	ODCE = 0x0;
+	TRISECLR = 0xFF;
+	PORTE = 0x0;
+	
+	/* Output pins for display signals */
+	PORTF = 0xFFFF;
+	PORTG = (1 << 9);
+	ODCF = 0x0;
+	ODCG = 0x0;
+	TRISFCLR = 0x70;
+	TRISGCLR = 0x200;
+	
+	/* Set up input pins */
+	TRISDSET = (1 << 8);
+	TRISFSET = (1 << 1);
+	
+	/* Set up SPI as master */
+	SPI2CON = 0;
+	SPI2BRG = 4;
+	/* SPI2STAT bit SPIROV = 0; */
+	SPI2STATCLR = 0x40;
+	/* SPI2CON bit CKP = 1; */
+    SPI2CONSET = 0x40;
+	/* SPI2CON bit MSTEN = 1; */
+	SPI2CONSET = 0x20;
+	/* SPI2CON bit ON = 1; */
+	SPI2CONSET = 0x8000;
+
+	display_init();
+
+	volatile int* LEDs = (volatile int*) 0xbf886100;
+	*LEDs &= ~0xff;
+
+	TRISD |= 0xfe0;
+	TRISF |= 0x1;
+
+	// Init timer 2
+	T2CON |= 0x70;  // 256:1 prescale
+	PR2 = 31250;    // 80M / 256 / 10
+	TMR2 = 0;
+	T2CON |= 0x8000;
+
+	// Init Interrupts (TMR2)
+	IEC(0) |= 0x100;    // enables timer 2 interrupts
+	IPC(2) |= 0x1f;     // set priority
+	// Init Interrupts (SW1)
+	IEC(0) |= 0x80;     // enables SW1 interrupts
+	IPC(0) &= ~0x1f000000;  // sets priority and subpriority to 0
+	enable_interrupt(); // globally enables interrupts
+}
+
 void display_screenbuffer () {
     int i, j;
 
@@ -154,4 +208,11 @@ void screenbuffer_addPixel (uint8_t x, uint8_t y) {
 void screenbuffer_removePixel (uint8_t x, uint8_t y) {
     uint8_t row = y / 8;
     screenbuffer[row][x] &= ~(1 << y - row * 8);
+}
+
+void add_cell (uint8_t x, uint8_t y) {
+    int i, k;
+    for (i = y; i < y + 3; i++)
+        for (k = x; k < x + 3; k++)
+            screenbuffer_addPixel(k, i);
 }
