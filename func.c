@@ -160,8 +160,16 @@ void display_image(int x, const uint8_t *data) {
 	}
 }
 
-void display_pixel(int x, int y) {
-  
+void display_pixel(int x, int y, int weight) {
+  DISPLAY_CHANGE_TO_COMMAND_MODE;
+    spi_send_recv(0x22);
+	  spi_send_recv(0);
+		
+		spi_send_recv(96 & 0xF);
+		spi_send_recv(0x10 | ((x >> 4) & 0xF));
+
+  DISPLAY_CHANGE_TO_DATA_MODE;
+    spi_send_recv(10);
 }
 
 void display_update(void) {

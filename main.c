@@ -55,10 +55,7 @@ int main() {
 	SPI2CONSET = 0x8000;
 
 	display_init();
-	display_string(0, "ABCDEFGHIJKLM");
-	display_string(1, "NOPQRSTUVWXYZ");
-	display_string(2, "abcdefghijklm");
-	display_string(3, "score: 1234567890");
+	display_pixel(1,1,1);
 	display_update();
 	//display_image(96, icon);
 	return 0;

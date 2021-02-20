@@ -4,4 +4,4 @@ typedef struct cell {
 
 typedef struct gameplan {
     char cells[8][40];  // [row][column]
-}
+} gameplan;
