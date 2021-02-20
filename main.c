@@ -54,7 +54,3 @@ int main() {
 	SPI2CONSET = 0x8000;
 	return 0;
 }
-
-void user_isr () {
-
-}
