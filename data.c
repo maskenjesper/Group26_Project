@@ -6,7 +6,7 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "func.h"  /* Declatations for these labs */
+#include "lib.h"  /* Declatations for these labs */
 
 char textbuffer[4][16];
 
@@ -159,3 +159,7 @@ const uint8_t const icon[] = {
 	132, 59, 192, 27, 164, 74, 177, 70,
 	184, 69, 186, 69, 254, 80, 175, 217,
 };
+
+///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
+
+uint8_t screenbuffer[4][128];

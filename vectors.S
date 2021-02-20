@@ -18,6 +18,13 @@
 		jr $k0
 .endm
 
+############## Added by me ##################
+.global enable_interrupt
+enable_interrupt:
+	ei
+	jr $ra
+#############################################
+
 .align 4
 .global __use_isr_install
 __use_isr_install:
