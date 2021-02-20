@@ -9,6 +9,7 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
+#include "func.h"
 
 int main() {
         /*
@@ -52,5 +53,7 @@ int main() {
 	SPI2CONSET = 0x20;
 	/* SPI2CON bit ON = 1; */
 	SPI2CONSET = 0x8000;
+
+	display_init();
 	return 0;
 }
