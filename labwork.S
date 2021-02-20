@@ -24,6 +24,7 @@
   .text
   .global time2string
   .global delay
+  .global enable_interrupt
 hexasc:	
 	andi 	$t0,$a0,0xF	# t0 = a0,3:0
 
@@ -110,3 +111,7 @@ time2string:
 	jr	$ra		# return to caller
 	nop
 	###############################################
+
+enable_interrupt:
+	ei
+	j $ra
