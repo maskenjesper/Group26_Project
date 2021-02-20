@@ -11,7 +11,7 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "func.h"
 
-int main() {
+int main () {
         /*
 	  This will set the peripheral bus clock to the same frequency
 	  as the sysclock. That means 80 MHz, when the microcontroller
@@ -19,9 +19,9 @@ int main() {
 	*/
 	SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
 	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
-	while(OSCCON & (1 << 21)); /* Wait until PBDIV ready */
+	while (OSCCON & (1 << 21)); /* Wait until PBDIV ready */
 	OSCCONCLR = 0x180000; /* clear PBDIV bit <0,1> */
-	while(OSCCON & (1 << 21));  /* Wait until PBDIV ready */
+	while (OSCCON & (1 << 21));  /* Wait until PBDIV ready */
 	SYSKEY = 0x0;  /* Lock OSCCON */
 	
 	/* Set up output pins */
@@ -55,7 +55,7 @@ int main() {
 	SPI2CONSET = 0x8000;
 
 	display_init();
-	display_pixel(1,1,1);
+	display_pixel(1, 1, 1);
 	display_update();
 	//display_image(96, icon);
 	return 0;
