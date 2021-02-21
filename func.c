@@ -239,15 +239,15 @@ void screenbuffer_updateGameplan () {
                 screenbuffer_removeCell(k, 3 * i);
 }
 
-void gameplan_addCell (struct Cell *c) {
+void gameplan_addCell (Cell *c) {
     gameplan[c->y][c->x] = 1;
 }
 
-void gameplan_removeCell (struct Cell *c) {
+void gameplan_removeCell (Cell *c) {
     gameplan[c->y][c->x] = 0;
 }
 
-void gameplan_moveCell (struct Cell *c, enum dir d) {
+void gameplan_moveCell (Cell *c, enum dir d) {
     if (d == DOWN) {
         gameplan_removeCell(c);
         c->x += 1;
@@ -270,19 +270,19 @@ void gameplan_moveCell (struct Cell *c, enum dir d) {
     }
 }
 
-void gameplan_addShape (struct Shape *s) {
+void gameplan_addShape (Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         gameplan_addCell(&(s->c[i]));
 }
 
-void gameplan_removeShape (struct Shape *s) {
+void gameplan_removeShape (Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         gameplan_removeCell(&(s->c[i]));
 }
 
-void gameplan_moveShape (struct Shape *s, enum dir d) {
+void gameplan_moveShape (Shape *s, enum dir d) {
     int i;
     for (i = 0; i < 4; i++)
         gameplan_moveCell(&(s->c[i]), d);

@@ -2,7 +2,9 @@
 #include <stdint.h>
 #include "obj.h"
 
-/* Cell constructors */
+/**************** CELL CONSTRUCTORS ****************/
+/*  Each version of the constructor sets each field as either parameter value (for those with parameters)
+    or 0. */
 struct Cell new_cell () {
     struct Cell c = {.x = 0, .y = 0, .a = 0, .p = 0};
     return c;
@@ -16,7 +18,9 @@ struct Cell new_cell_la (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
     return c;
 }
 
-/* Shape constructors */
+/**************** SHAPE CONSTRUCTORS ****************/
+/*  Each version of the constructor sets each field as either parameter value (for those with parameters)
+    or 0. */
 struct Shape new_shape (enum shape s) {
     struct Shape S = {.s = s, .x = 0, .y = 1, .a = 0, .p = 0};
     if (s == BOX) {

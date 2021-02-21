@@ -50,7 +50,5 @@ int main () {
 	gameplan_addShape(&S2);
 	gameplan_removeShape(&S2);
 
-	
-
 	return 0;
 }
