@@ -275,3 +275,15 @@ void gameplan_addShape (struct Shape *s) {
     for (i = 0; i < 4; i++)
         gameplan_addCell(&(s->c[i]));
 }
+
+void gameplan_removeShape (struct Shape *s) {
+    int i;
+    for (i = 0; i < 4; i++)
+        gameplan_removeCell(&(s->c[i]));
+}
+
+void gameplan_moveShape (struct Shape *s, enum dir d) {
+    int i;
+    for (i = 0; i < 4; i++)
+        gameplan_moveCell(&(s->c[i]), d);
+}

@@ -38,3 +38,5 @@ void gameplan_removeCell (struct Cell *c);
 enum dir {RIGHT, LEFT, UP, DOWN};
 void gameplan_moveCell (struct Cell *c, enum dir d);
 void gameplan_addShape (struct Shape *s);
+void gameplan_removeShape (struct Shape *s);
+void gameplan_moveShape (struct Shape *s, enum dir d);

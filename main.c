@@ -12,21 +12,24 @@
 #include "lib.h"
 
 int timeoutcount = 0;
+struct Shape S1, S2;
 
 void user_isr () {
 
+	// SW1 Interrupt
     if ((IFS(0) >> 7) & 0x1) {
-        volatile int* LEDs = (volatile int*) 0xbf886110;
-        *LEDs = (*LEDs & ~0xff) | ((*LEDs + 1 & 0xff));
+		gameplan_moveShape(&S1, LEFT);
     }
 
+	// TMR2 Interrupt
 	if ((IFS(0) >> 8) & 0x1) {
 		screenbuffer_updateGameplan();
 		display_screenbuffer();
 	}
-
 	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 9) {
 		timeoutcount = 0;
+		gameplan_moveShape(&S1, DOWN);
+		gameplan_moveShape(&S2, DOWN);
 	}
 
 	// Clear flags
@@ -41,10 +44,13 @@ int main () {
 	/*struct Shape S1 = new_shape(BOX);
 	gameplan_addShape(&S1);*/
 
-	struct Shape S1 = new_shape_la(ZRIGHT, 36, 1, 1, 1);
-	struct Shape S2 = new_shape_la(ZLEFT, 45, 3, 1, 1);
+	S1 = new_shape_la(ZRIGHT, 36, 1, 1, 1);
+	S2 = new_shape_la(ZLEFT, 45, 3, 1, 1);
 	gameplan_addShape(&S1);
 	gameplan_addShape(&S2);
+	gameplan_removeShape(&S2);
+
+	
 
 	return 0;
 }

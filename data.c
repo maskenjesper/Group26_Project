@@ -164,4 +164,5 @@ const uint8_t const icon[] = {
 ///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
 
 uint8_t screenbuffer[4][128];	// screen pixels divided into 8p high horisontal strips
-uint8_t gameplan[8][126];
+uint8_t gameplan[8][126];		// coordinates consisting of 8 cell width lanes and 126 positions in each lane
+// not in use yet: struct Cell cellMap[8][126];	// Array meant to store information about the gameplans cells
