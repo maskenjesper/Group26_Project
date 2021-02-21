@@ -164,4 +164,4 @@ const uint8_t const icon[] = {
 ///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
 
 uint8_t screenbuffer[4][128];	// screen pixels divided into 8p high horisontal strips
-uint8_t screenbuffer_proxy[32][128];
+uint8_t gameplan[8][126];

@@ -14,7 +14,9 @@
 #define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
-/* Declare display-related functions from mipslabfunc.c */
+void init ();
+
+/* Declare display-related functions */
 void quicksleep(int cyc);
 uint8_t spi_send_recv(uint8_t data);
 void display_init(void);
@@ -22,11 +24,17 @@ void display_string(int line, char *s);
 void display_image(int x, const uint8_t *data);
 void display_update(void);
 
-void init ();
-
+/* Declare screenbuffer-related functions */
 void display_screenbuffer ();
-void screenbuffer_addPixel (uint8_t x, uint8_t y);
-void screenbuffer_removePixel (uint8_t x, uint8_t y);
+void screenbuffer_add (uint8_t x, uint8_t y);
+void screenbuffer_remove (uint8_t x, uint8_t y);
+void screenbuffer_addCell (uint8_t x, uint8_t y);
+void screenbuffer_removeCell (uint8_t x, uint8_t y);
+void screenbuffer_updateGameplan ();
 
-void add_cell (uint8_t x, uint8_t y);
-void remove_cell (uint8_t x, uint8_t y);
+/* Declare gameplan-related functions */
+void gameplan_addCell (struct Cell *c);
+void gameplan_removeCell (struct Cell *c);
+enum dir {RIGHT, LEFT, UP, DOWN};
+void gameplan_moveCell (struct Cell *c, enum dir d);
+void gameplan_addShape (struct Shape *s);

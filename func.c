@@ -6,7 +6,9 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "lib.h"  /* Declatations for these labs */
+#include "func.h"  /* Declatations for these labs */
+#include "data.h"
+#include "obj.h"
 
 /* quicksleep:
     A simple function to create a small delay.
@@ -200,27 +202,76 @@ void display_screenbuffer () {
     }
 }
 
-void screenbuffer_addPixel (uint8_t x, uint8_t y) {
+void screenbuffer_add (uint8_t x, uint8_t y) {
     uint8_t row = y / 8;
     screenbuffer[row][x] |= 1 << y - row * 8;
 }
 
-void screenbuffer_removePixel (uint8_t x, uint8_t y) {
+void screenbuffer_remove (uint8_t x, uint8_t y) {
     uint8_t row = y / 8;
     screenbuffer[row][x] &= ~(1 << y - row * 8);
 }
 
-void add_cell (uint8_t x, uint8_t y) {
+void screenbuffer_addCell (uint8_t x, uint8_t y) {
     int i, k;
     for (i = y; i < y + 3; i++)
         for (k = x; k < x + 3; k++)
-            screenbuffer_addPixel(k, i);
+            screenbuffer_add(k, i);
+    screenbuffer_remove(x + 1, y + 1);
 }
 
-void remove_cell (uint8_t x, uint8_t y) {
+void screenbuffer_removeCell (uint8_t x, uint8_t y) {
     int i, k;
     for (i = y; i < y + 3; i++)
         for (k = x; k < x + 3; k++)
-            screenbuffer_removePixel(k, i);
+            screenbuffer_remove(k, i);
 }
 
+void screenbuffer_updateGameplan () {
+    int i, k;
+    for (i = 0; i < 8; i++)
+        for (k = 0; k < 126; k++)
+            if (gameplan[i][k]) {
+                screenbuffer_addCell(k, 3 * i);
+                k += 2;
+            }
+            else
+                screenbuffer_removeCell(k, 3 * i);
+}
+
+void gameplan_addCell (struct Cell *c) {
+    gameplan[c->y][c->x] = 1;
+}
+
+void gameplan_removeCell (struct Cell *c) {
+    gameplan[c->y][c->x] = 0;
+}
+
+void gameplan_moveCell (struct Cell *c, enum dir d) {
+    if (d == DOWN) {
+        gameplan_removeCell(c);
+        c->x += 1;
+        gameplan_addCell(c);
+    }
+    else if (d == LEFT) {
+        gameplan_removeCell(c);
+        c->y += 2;
+        gameplan_addCell(c);
+    }
+    else if (d == RIGHT) {
+        gameplan_removeCell(c);
+        c->y -= 2;
+        gameplan_addCell(c);
+    }
+    else {
+        gameplan_removeCell(c);
+        c->x -= 1;
+        gameplan_addCell(c);
+    }
+}
+
+void gameplan_addShape (struct Shape *s) {
+    int i;
+    for (i = 0; i < 4; i++)
+        gameplan_addCell(&(s->c[i]));
+}

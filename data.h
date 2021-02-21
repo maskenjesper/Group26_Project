@@ -12,5 +12,5 @@ extern const uint8_t const icon[128];
 /* Declare screen buffer for display output */
 extern uint8_t screenbuffer[4][128];
 
-extern uint8_t screenbuffer_proxy[32][128];
+extern uint8_t gameplan[8][126];
 
