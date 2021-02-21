@@ -3,7 +3,7 @@
 /**************** CELL OBJECT ****************/
 /*
     Fields:
-    x: x-coordinate, range (0-126)
+    x: x-coordinate, range (0-125)
     y: y-coordinate, range (0-7)
     a: active, (true/false)
     p: player, (0,1) */
@@ -18,7 +18,7 @@ typedef struct Cell Cell;
 /**************** SHAPE OBJECT ****************/
 /*
     Fields:
-    x: centercell[1] x-coordinate, range (0-126)
+    x: centercell[1] x-coordinate, range (0-125)
     y: centercell[1] y-coordinate, range (0-7)
     a: active, (true/false)
     p: player, (0,1)

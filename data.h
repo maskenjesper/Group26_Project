@@ -14,3 +14,4 @@ extern uint8_t screenbuffer[4][128];
 
 extern uint8_t gameplan[8][126];
 
+// not in use yet: extern Cell cellMap[8][126];

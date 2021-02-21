@@ -12,7 +12,7 @@
 #include "lib.h"
 
 int timeoutcount = 0;
-struct Shape S1, S2;
+struct Shape S1;
 
 void user_isr () {
 
@@ -26,10 +26,9 @@ void user_isr () {
 		screenbuffer_updateGameplan();
 		display_screenbuffer();
 	}
-	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 9) {
+	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {
 		timeoutcount = 0;
 		gameplan_moveShape(&S1, DOWN);
-		gameplan_moveShape(&S2, DOWN);
 	}
 
 	// Clear flags
@@ -44,11 +43,7 @@ int main () {
 	/*struct Shape S1 = new_shape(BOX);
 	gameplan_addShape(&S1);*/
 
-	S1 = new_shape_la(ZRIGHT, 36, 1, 1, 1);
-	S2 = new_shape_la(ZLEFT, 45, 3, 1, 1);
-	gameplan_addShape(&S1);
-	gameplan_addShape(&S2);
-	gameplan_removeShape(&S2);
+	S1 = new_shape(T);
 
 	return 0;
 }

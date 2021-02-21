@@ -162,6 +162,10 @@ void init () {
 
 	display_init();
 
+    int i;
+    for (i = 0; i < 128; i++)
+        screenbuffer_add(i, 24);
+
 	volatile int* LEDs = (volatile int*) 0xbf886100;
 	*LEDs &= ~0xff;
 
@@ -282,8 +286,20 @@ void gameplan_removeShape (Shape *s) {
         gameplan_removeCell(&(s->c[i]));
 }
 
-void gameplan_moveShape (Shape *s, enum dir d) {
+int gameplan_moveShape (Shape *s, enum dir d) {
     int i;
     for (i = 0; i < 4; i++)
+        if (cellCollision(&(s->c[i]), d))
+            return 1;
+    for (i = 0; i < 4; i++)
         gameplan_moveCell(&(s->c[i]), d);
+    return 0;
+}
+
+int cellCollision (Cell *c, enum dir d) {
+    if (d == UP && c->x == 0 || d == DOWN && c->x == 125 ||
+        d == LEFT && c->y == 7 || d == RIGHT && c->y == 0)
+        return 1;
+    else
+        return 0;
 }
