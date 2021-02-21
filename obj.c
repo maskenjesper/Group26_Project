@@ -1,38 +1,45 @@
-#include <stdint.h>
+#include <stdlib.h>
+#include "obj.h"
 
-typedef struct cell {
-    uint8_t pixels[3][3];
-    uint8_t marked;
-} cell;
+struct cell {
+    uint8_t x, y;
+};
 
-typedef struct gameplan {
+/*cell* cell_new (uint8_t x, uint8_t y) {
+    cell* p = malloc(sizeof(cell));
+    p->x = x;
+    p->y = y;
+    return p;
+}*/
+
+struct gameplan {
     char cells[8][40];  // [row][column]
-} gameplan;
+};
 
-typedef struct shape_box {                      ////
-    char cells[8][40];                          ////
-} shape_box;
+struct shape_box {                                 ////
+    uint8_t cells[8][40];                          ////
+};
 
-typedef struct shape_stick {                    ////////
-    char cells[8][40];      
-} shape_stick;
+struct shape_stick {                              ////////
+    uint8_t cells[8][40];      
+};
 
-typedef struct shape_t {                        //////
-    char cells[8][40];                            //
-} shape_t;
+struct shape_t {                                   //////
+    uint8_t cells[8][40];                            //
+};
 
-typedef struct shape_lRight {                     //
-    char cells[8][40];                            //
-} shape_lRight;                                   ////
+struct shape_lRight {                                //
+    uint8_t cells[8][40];                            //
+};                                                   ////
 
-typedef struct shape_lLeft {                      //
-    char cells[8][40];                            //
-} shape_lLeft;                                  ////
+struct shape_lLeft {                                 //
+    uint8_t cells[8][40];                            //
+};                                                 ////
 
-typedef struct shape_zRight {                     ////
-    char cells[8][40];                          ////
-} shape_zRight;
+struct shape_zRight {                                ////
+    uint8_t cells[8][40];                          ////
+};
 
-typedef struct shape_zLeft {                    ////
-    char cells[8][40];                            ////
-} shape_zLeft;
+struct shape_zLeft {                             ////
+    char cells[8][40];                             ////
+}; 

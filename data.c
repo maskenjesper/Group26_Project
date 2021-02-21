@@ -6,7 +6,8 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "lib.h"
+#include "data.h"
+#include "obj.h"
 
 char textbuffer[4][16];
 
@@ -163,3 +164,4 @@ const uint8_t const icon[] = {
 ///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
 
 uint8_t screenbuffer[4][128];	// screen pixels divided into 8p high horisontal strips
+uint8_t screenbuffer_proxy[32][128];

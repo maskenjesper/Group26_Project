@@ -11,27 +11,22 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "lib.h"
 
+void user_isr () {
+
+    if ((IFS(0) >> 7) & 0x1 == 1) {
+        volatile int* LEDs = (volatile int*) 0xbf886110;
+        *LEDs = (*LEDs & ~0xff) | ((*LEDs + 1 & 0xff));
+    }
+    
+    IFS(0) &= ~0x100;
+    IFS(0) &= ~0x80;
+}
+
 int main () {
 
 	init();
 
-	int i, k;
-	for (i = 0; i < 32; i++)
-		for (k = 0; k < 128; k++)
-			screenbuffer_addPixel(k, i);
-	display_screenbuffer();
 
-	for (i = 0; i < 32; i++)
-		for (k = 0; k < 128; k++)
-			screenbuffer_removePixel(k, i);
-	display_screenbuffer();
-
-	add_cell(0, 0);
-	add_cell(0, 3);
-	add_cell(3, 3);
-	add_cell(0, 6);
-
-	display_screenbuffer();
 
 	return 0;
 }

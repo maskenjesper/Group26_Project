@@ -216,3 +216,11 @@ void add_cell (uint8_t x, uint8_t y) {
         for (k = x; k < x + 3; k++)
             screenbuffer_addPixel(k, i);
 }
+
+void remove_cell (uint8_t x, uint8_t y) {
+    int i, k;
+    for (i = y; i < y + 3; i++)
+        for (k = x; k < x + 3; k++)
+            screenbuffer_removePixel(k, i);
+}
+

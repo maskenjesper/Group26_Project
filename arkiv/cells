@@ -1,0 +1,16 @@
+void moveDown_cell (cell *Cell) {
+    remove_cell(Cell->x, Cell->y);
+    Cell->x = Cell->x + 1;
+    draw_cell(Cell);
+}
+
+void draw_cell (cell Cell) {
+    add_cell(Cell->x, Cell->y);
+    display_screenbuffer();
+}
+
+void moveLeft_cell (cell *Cell) {
+    remove_cell(Cell->x, Cell->y);
+    Cell->y = Cell->y + 2;
+    draw_cell(Cell);
+}

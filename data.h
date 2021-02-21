@@ -1,3 +1,5 @@
+#pragma once
+
 /* Declare text buffer for display output */
 extern char textbuffer[4][16];
 
@@ -9,3 +11,6 @@ extern const uint8_t const icon[128];
 
 /* Declare screen buffer for display output */
 extern uint8_t screenbuffer[4][128];
+
+extern uint8_t screenbuffer_proxy[32][128];
+

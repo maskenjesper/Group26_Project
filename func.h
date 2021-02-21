@@ -1,3 +1,7 @@
+#pragma once
+
+#include "obj.h"
+
 #define DISPLAY_CHANGE_TO_COMMAND_MODE (PORTFCLR = 0x10)
 #define DISPLAY_CHANGE_TO_DATA_MODE (PORTFSET = 0x10)
 
@@ -23,4 +27,6 @@ void init ();
 void display_screenbuffer ();
 void screenbuffer_addPixel (uint8_t x, uint8_t y);
 void screenbuffer_removePixel (uint8_t x, uint8_t y);
+
 void add_cell (uint8_t x, uint8_t y);
+void remove_cell (uint8_t x, uint8_t y);

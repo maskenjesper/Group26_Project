@@ -1,17 +1,21 @@
-typedef struct cell;
+#pragma once
 
-typedef struct gameplan;
+#include <stdint.h>
 
-typedef struct shape_box;
+typedef struct cell cell;
 
-typedef struct shape_stick;
+typedef struct gameplan gameplan;
 
-typedef struct shape_t;
+typedef struct shape_box shape_box;
 
-typedef struct shape_lRight;
+typedef struct shape_stick shape_stick;
 
-typedef struct shape_lLeft;
+typedef struct shape_t shape_t;
 
-typedef struct shape_zRight;
+typedef struct shape_lRight shape_lRight;                                   ////
 
-typedef struct shape_zLeft;
+typedef struct shape_lLeft shape_lLeft;                                  ////
+
+typedef struct shape_zRight shape_zRight;
+
+typedef struct shape_zLeft shape_zLeft;
