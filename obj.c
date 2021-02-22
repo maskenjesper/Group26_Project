@@ -178,3 +178,18 @@ Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 
 /**************** Gameplan ****************/
 /*** CONSTRUCTORS ***/
+/*Gameplan new_gameplan () {
+    Cell c[8];
+    Gameplan gp;
+    int i, k;
+    for (i = 0; i < 8; i++)
+        for (k = 0; k < 126; k++)
+            gp.c[i][k] = new_cell_la(k, i, 0, 0);
+    return gp;
+}*/
+/*** FUNCTIONS ***/
+void gameplan_addShape (Gameplan *gp, Shape *s) {
+    int i;
+    for (i = 0; i < 4; i++)
+        gp->c[s->y][s->x].a = 1;
+}

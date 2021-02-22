@@ -31,7 +31,4 @@ void screenbuffer_remove (uint8_t x, uint8_t y);
 void screenbuffer_addCell (uint8_t x, uint8_t y);
 void screenbuffer_removeCell (uint8_t x, uint8_t y);
 void screenbuffer_drawBoundry ();
-void screenbuffer_updateGameplan (Gameplan gp
-);
-
-/* Declare gameplan-related functions */
+void screenbuffer_updateGameplan (Gameplan *gp);

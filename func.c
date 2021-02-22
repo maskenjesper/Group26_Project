@@ -238,11 +238,11 @@ void screenbuffer_drawBoundry () {
     }
 }
 
-void screenbuffer_updateGameplan (Gameplan gp) {
+void screenbuffer_updateGameplan (Gameplan *gp) {
     int i, k;
     for (i = 0; i < 8; i++)
         for (k = 0; k < 126; k++)
-            if (gp.c[i][k].a) {
+            if (gp->c[i][k].a) {
                 screenbuffer_addCell(k, 3 * i);
                 k += 2;
             }

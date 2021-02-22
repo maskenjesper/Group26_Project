@@ -6,7 +6,7 @@
     x: x-coordinate, range (0-125)
     y: y-coordinate, range (0-7)
     a: active, (true/false)
-    p: player, (0,1) */
+    p: player, (1,2) */
 typedef struct Cell {
     uint8_t x, y, a, p;
 } Cell;
@@ -20,7 +20,7 @@ Cell new_cell_la(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
     x: centercell[1] x-coordinate, range (0-125)
     y: centercell[1] y-coordinate, range (0-7)
     a: active, (true/false)
-    p: player, (0,1)
+    p: player, (1,2)
     s: type of shape
     c: instances of cells with relative position[2]
     
@@ -44,3 +44,5 @@ Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 typedef struct Gameplan {
     Cell c[8][126];
 } Gameplan;
+Gameplan new_gameplan ();
+void gameplan_addShape (Gameplan *gp, Shape *s);
