@@ -12,24 +12,29 @@
 #include "lib.h"
 
 int timeoutcount = 0;
-struct Shape S1;
+Shape *S1;
+int locked;
 
 void user_isr () {
 
 	/********** SW1 Interrupt **********/
     if ((IFS(0) >> 7) & 0x1) {
-		gameplan_moveShape(&S1, LEFT);
+
     }
 
 	/********** TMR2 Interrupt **********/
-	if ((IFS(0) >> 8) & 0x1) {		// Draw frame
-		screenbuffer_updateGameplan();
-		screenbuffer_drawBoundry();
-		display_screenbuffer();
+	if ((IFS(0) >> 8) & 0x1) {		// Tick
+		if (getbtns() & 0x1)
+			gameplan_moveShape(S1, RIGHT);
+		if (getbtns() >> 1 & 0x1)
+			gameplan_moveShape(S1, LEFT);
+		draw_frame();
 	}
-	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 9) {	// Move testshape
+	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
 		timeoutcount = 0;
-		gameplan_moveShape(&S1, DOWN);
+		if (gameplan_moveShape(S1, DOWN))
+			locked = 0;
+
 	}
 
 	// Clear flags
@@ -41,9 +46,28 @@ int main () {
 
 	init();
 
-	S1 = new_shape(T);
+	enum shape Shapes[100];
+	int i;
+	for (i = 0; i < 100; i++)
+		Shapes[i] = LLEFT;
 
-	
+	Shapes[1] = BOX;
+	Shapes[2] = STICK;
+	Shapes[3] = T;
+	Shapes[4] = LRIGHT;
+	Shapes[5] = ZLEFT;
+	Shapes[6] = ZRIGHT;
+
+	while (1)
+		for (i = 0; i < 100; i++ ) {
+			locked = 1;
+
+			Shape temp = new_shape_la(Shapes[i], 0, 3, 1, 0);
+			S1 = &temp;
+			
+			while (locked);
+		}
+
 
 	return 0;
 }

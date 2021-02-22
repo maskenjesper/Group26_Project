@@ -165,6 +165,7 @@ void init () {
 	volatile int* LEDs = (volatile int*) 0xbf886100;
 	*LEDs &= ~0xff;
 
+    // Init buttons
 	TRISD |= 0xfe0;
 	TRISF |= 0x1;
 
@@ -180,8 +181,6 @@ void init () {
 	// Init Interrupts (SW1)
 	IEC(0) |= 0x80;     // enables SW1 interrupts
 	IPC(0) &= ~0x1f000000;  // sets priority and subpriority to 0
-    // Init Interrupts (BTN1)
-    
 	enable_interrupt(); // globally enables interrupts
 }
 
@@ -355,4 +354,19 @@ void gameplan_wipe () {
     for (i = 0; i < 8; i++)
         for (k = 0; k < 126; k++)
             gameplan[i][k] = 0;
+}
+
+// Returns int where 4 lsb are the swithches states
+int getsw () {
+    return (PORTD >> 8) & 0xf;
+}
+
+int getbtns () {
+    return ((PORTD >> 4) & 0xe) | ((PORTF >> 1) & 0x1);
+}
+
+void draw_frame() {
+    screenbuffer_updateGameplan();
+    screenbuffer_drawBoundry();
+    display_screenbuffer();
 }

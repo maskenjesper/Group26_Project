@@ -46,3 +46,6 @@ int gameplan_moveShape (struct Shape *s, enum dir d);
 // return 1: collision true, return 0: collision false
 int cellCollision (Cell *c, enum dir d);
 void gameplan_wipe ();
+int getsw ();
+int getbtns ();
+void draw_frame();
