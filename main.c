@@ -16,17 +16,18 @@ struct Shape S1;
 
 void user_isr () {
 
-	// SW1 Interrupt
+	/********** SW1 Interrupt **********/
     if ((IFS(0) >> 7) & 0x1) {
 		gameplan_moveShape(&S1, LEFT);
     }
 
-	// TMR2 Interrupt
-	if ((IFS(0) >> 8) & 0x1) {
+	/********** TMR2 Interrupt **********/
+	if ((IFS(0) >> 8) & 0x1) {		// Draw frame
 		screenbuffer_updateGameplan();
+		screenbuffer_drawBoundry();
 		display_screenbuffer();
 	}
-	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {
+	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 9) {	// Move testshape
 		timeoutcount = 0;
 		gameplan_moveShape(&S1, DOWN);
 	}
@@ -40,10 +41,9 @@ int main () {
 
 	init();
 
-	/*struct Shape S1 = new_shape(BOX);
-	gameplan_addShape(&S1);*/
-
 	S1 = new_shape(T);
+
+	
 
 	return 0;
 }

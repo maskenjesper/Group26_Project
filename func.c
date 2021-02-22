@@ -162,10 +162,6 @@ void init () {
 
 	display_init();
 
-    int i;
-    for (i = 0; i < 128; i++)
-        screenbuffer_add(i, 24);
-
 	volatile int* LEDs = (volatile int*) 0xbf886100;
 	*LEDs &= ~0xff;
 
@@ -173,10 +169,10 @@ void init () {
 	TRISF |= 0x1;
 
 	// Init timer 2
-	T2CON |= 0x70;  // 256:1 prescale
-	PR2 = 31250;    // 80M / 256 / 10
+	T2CON |= 0x70;      // 256:1 prescale
+	PR2 = 31250;        // 80M / 256 / 10
 	TMR2 = 0;
-	T2CON |= 0x8000;
+	T2CON |= 0x8000;    // Turn on
 
 	// Init Interrupts (TMR2)
 	IEC(0) |= 0x100;    // enables timer 2 interrupts
@@ -184,6 +180,8 @@ void init () {
 	// Init Interrupts (SW1)
 	IEC(0) |= 0x80;     // enables SW1 interrupts
 	IPC(0) &= ~0x1f000000;  // sets priority and subpriority to 0
+    // Init Interrupts (BTN1)
+    
 	enable_interrupt(); // globally enables interrupts
 }
 
@@ -243,6 +241,16 @@ void screenbuffer_updateGameplan () {
                 screenbuffer_removeCell(k, 3 * i);
 }
 
+void screenbuffer_drawBoundry () {
+    int i;
+    for (i = 0; i < 128; i++)
+        screenbuffer_add(i, 24);
+    for (i = 0; i < 32; i++) {
+        screenbuffer_add(63, i);
+        screenbuffer_add(64, i);
+    }
+}
+
 void gameplan_addCell (Cell *c) {
     gameplan[c->y][c->x] = 1;
 }
@@ -274,6 +282,45 @@ void gameplan_moveCell (Cell *c, enum dir d) {
     }
 }
 
+void gameplan_moveCells (Cell *c, enum dir d, int l) {
+    if (d == DOWN) {
+        int i;
+        for (i = 0; i < l; i++) {
+            gameplan_removeCell(&c[i]);
+            (&c[i])->x += 1;
+        }
+        for (i = 0; i < l; i++)
+            gameplan_addCell(&c[i]);
+    }
+    else if (d == LEFT) {
+        int i;
+        for (i = 0; i < l; i++) {
+            gameplan_removeCell(&c[i]);
+            (&c[i])->y += 1;
+        }
+        for (i = 0; i < l; i++)
+            gameplan_addCell(&c[i]);
+    }
+    else if (d == RIGHT) {
+        int i;
+        for (i = 0; i < l; i++) {
+            gameplan_removeCell(&c[i]);
+            (&c[i])->y -= 1;
+        }
+        for (i = 0; i < l; i++)
+            gameplan_addCell(&c[i]);
+    }
+    else {
+        int i;
+        for (i = 0; i < l; i++) {
+            gameplan_removeCell(&c[i]);
+            (&c[i])->x -= 1;
+        }
+        for (i = 0; i < l; i++)
+            gameplan_addCell(&c[i]);
+    }
+}
+
 void gameplan_addShape (Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
@@ -291,8 +338,7 @@ int gameplan_moveShape (Shape *s, enum dir d) {
     for (i = 0; i < 4; i++)
         if (cellCollision(&(s->c[i]), d))
             return 1;
-    for (i = 0; i < 4; i++)
-        gameplan_moveCell(&(s->c[i]), d);
+    gameplan_moveCells((s->c), d, 4);
     return 0;
 }
 
@@ -302,4 +348,11 @@ int cellCollision (Cell *c, enum dir d) {
         return 1;
     else
         return 0;
+}
+
+void gameplan_wipe () {
+    int i, k;
+    for (i = 0; i < 8; i++)
+        for (k = 0; k < 126; k++)
+            gameplan[i][k] = 0;
 }
