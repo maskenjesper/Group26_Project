@@ -356,17 +356,3 @@ void gameplan_wipe () {
             gameplan[i][k] = 0;
 }
 
-// Returns int where 4 lsb are the swithches states
-int getsw () {
-    return (PORTD >> 8) & 0xf;
-}
-
-int getbtns () {
-    return ((PORTD >> 4) & 0xe) | ((PORTF >> 1) & 0x1);
-}
-
-void draw_frame() {
-    screenbuffer_updateGameplan();
-    screenbuffer_drawBoundry();
-    display_screenbuffer();
-}
