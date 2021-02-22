@@ -2,27 +2,25 @@
 #include <stdint.h>
 #include "obj.h"
 
-/**************** CELL CONSTRUCTORS ****************/
-/*  Each version of the constructor sets each field as either parameter value (for those with parameters)
-    or 0. */
-struct Cell new_cell () {
-    struct Cell c = {.x = 0, .y = 0, .a = 0, .p = 0};
+/**************** CELL  ****************/
+/*** CONSTRUCTORS ***/
+Cell new_cell () {
+    Cell c = {.x = 0, .y = 0, .a = 1, .p = 0};
     return c;
 }
-struct Cell new_cell_lc (uint8_t x, uint8_t y) {
-    struct Cell c = {.x = x, .y = y, .a = 0, .p = 0};
+Cell new_cell_lc (uint8_t x, uint8_t y) {
+    Cell c = {.x = x, .y = y, .a = 1, .p = 0};
     return c;
 }
-struct Cell new_cell_la (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
-    struct Cell c = {.x = x, .y = y, .a = a, .p = p};
+Cell new_cell_la (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
+    Cell c = {.x = x, .y = y, .a = a, .p = p};
     return c;
 }
 
-/**************** SHAPE CONSTRUCTORS ****************/
-/*  Each version of the constructor sets each field as either parameter value (for those with parameters)
-    or 0. */
-struct Shape new_shape (enum shape s) {
-    struct Shape S = {.s = s, .x = 0, .y = 1, .a = 0, .p = 0};
+/**************** SHAPE ****************/
+/*** CONSTRUCTORS ***/
+Shape new_shape (shape s) {
+    Shape S = {.s = s, .x = 0, .y = 1, .a = 1, .p = 0};
     if (s == BOX) {
         S.c[0] = new_cell();
         S.c[1] = new_cell_lc(0, 1);
@@ -73,8 +71,8 @@ struct Shape new_shape (enum shape s) {
     }
     return S;
 }
-struct Shape new_shape_lc (enum shape s, uint8_t x, uint8_t y) {
-    struct Shape S = {.s = s, .x = x, .y = y, .a = 0, .p = 0};
+Shape new_shape_lc (shape s, uint8_t x, uint8_t y) {
+    Shape S = {.s = s, .x = x, .y = y, .a = 1, .p = 0};
     if (s == BOX) {
         S.c[0] = new_cell_lc(x, y - 1);
         S.c[1] = new_cell_lc(x, y);
@@ -125,8 +123,8 @@ struct Shape new_shape_lc (enum shape s, uint8_t x, uint8_t y) {
     }
     return S;
 }
-struct Shape new_shape_la (enum shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
-    struct Shape S = {.s = s, .x = x, .y = y, .a = a, .p = p};
+Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
+    Shape S = {.s = s, .x = x, .y = y, .a = a, .p = p};
     if (s == BOX) {
         S.c[0] = new_cell_la(x, y - 1, a, p);
         S.c[1] = new_cell_la(x, y, a, p);
@@ -177,3 +175,6 @@ struct Shape new_shape_la (enum shape s, uint8_t x, uint8_t y, uint8_t a, uint8_
     }
     return S;
 }
+
+/**************** Gameplan ****************/
+/*** CONSTRUCTORS ***/

@@ -228,18 +228,6 @@ void screenbuffer_removeCell (uint8_t x, uint8_t y) {
             screenbuffer_remove(k, i);
 }
 
-void screenbuffer_updateGameplan () {
-    int i, k;
-    for (i = 0; i < 8; i++)
-        for (k = 0; k < 126; k++)
-            if (gameplan[i][k]) {
-                screenbuffer_addCell(k, 3 * i);
-                k += 2;
-            }
-            else
-                screenbuffer_removeCell(k, 3 * i);
-}
-
 void screenbuffer_drawBoundry () {
     int i;
     for (i = 0; i < 128; i++)
@@ -248,4 +236,16 @@ void screenbuffer_drawBoundry () {
         screenbuffer_add(63, i);
         screenbuffer_add(64, i);
     }
+}
+
+void screenbuffer_updateGameplan (Gameplan gp) {
+    int i, k;
+    for (i = 0; i < 8; i++)
+        for (k = 0; k < 126; k++)
+            if (gp.c[i][k].a) {
+                screenbuffer_addCell(k, 3 * i);
+                k += 2;
+            }
+            else
+                screenbuffer_removeCell(k, 3 * i);
 }

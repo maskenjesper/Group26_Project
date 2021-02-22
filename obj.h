@@ -7,13 +7,12 @@
     y: y-coordinate, range (0-7)
     a: active, (true/false)
     p: player, (0,1) */
-struct Cell {
+typedef struct Cell {
     uint8_t x, y, a, p;
-};
-struct Cell new_cell ();
-struct Cell new_cell_lc(uint8_t x, uint8_t y);
-struct Cell new_cell_la(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
-typedef struct Cell Cell;
+} Cell;
+Cell new_cell ();
+Cell new_cell_lc(uint8_t x, uint8_t y);
+Cell new_cell_la(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 
 /**************** SHAPE OBJECT ****************/
 /*
@@ -29,13 +28,19 @@ typedef struct Cell Cell;
             physical diagrams of which cell is center for each type of shape.
     [2]:    The cells positions are relative to the shapes coordinate i.e the
             centercell, one of the cells is the centercell. */
-enum shape {BOX, STICK, T, LRIGHT, LLEFT, ZRIGHT, ZLEFT};
-struct Shape {
+typedef enum shape {BOX, STICK, T, LRIGHT, LLEFT, ZRIGHT, ZLEFT} shape;
+typedef struct Shape {
     uint8_t x, y, a, p;
-    enum shape s;
-    struct Cell c[4];
-};
-struct Shape new_shape (enum shape);
-struct Shape new_shape_lc(enum shape, uint8_t x, uint8_t y);
-struct Shape new_shape_la(enum shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
-typedef struct Shape Shape;
+    shape s;
+    Cell c[4];
+} Shape;
+Shape new_shape (shape);
+Shape new_shape_lc(shape, uint8_t x, uint8_t y);
+Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
+
+/**************** Gameplan OBJECT ****************/
+/*
+     */
+typedef struct Gameplan {
+    Cell c[8][126];
+} Gameplan;
