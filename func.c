@@ -334,16 +334,23 @@ void gameplan_removeShape (Shape *s) {
 
 int gameplan_moveShape (Shape *s, enum dir d) {
     int i;
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++)  
+        gameplan[s->c[i].y][s->c[i].x] = 2;
+    for (i = 0; i < 4; i++) 
         if (cellCollision(&(s->c[i]), d))
             return 1;
+    
     gameplan_moveCells((s->c), d, 4);
     return 0;
 }
 
 int cellCollision (Cell *c, enum dir d) {
     if (d == UP && c->x == 0 || d == DOWN && c->x == 125 ||
-        d == LEFT && c->y == 7 || d == RIGHT && c->y == 0)
+        d == LEFT && c->y == 7 || d == RIGHT && c->y == 0 ||
+        d == UP && gameplan[c->y][c->x - 3] == 1 ||
+        d == DOWN && gameplan[c->y][c->x + 3] == 1 ||
+        d == RIGHT && gameplan[c->y - 1][c->x] == 1 ||
+        d == LEFT && gameplan[c->y + 1][c->x] == 1)
         return 1;
     else
         return 0;
