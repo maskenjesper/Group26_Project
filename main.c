@@ -38,7 +38,7 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	*cell = new_cell_la(100, 4, 1, 0);
+	*cell = new_cell(100, 4, 1, 0);
 	cellcontainer_addCell(&cc, cell);
 	//cellcontainer_removeCell(&cc, cell);
 
