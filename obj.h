@@ -9,6 +9,7 @@
     p: player, (1,2) */
 typedef struct Cell {
     uint8_t x, y, a, p;
+    uint16_t id;
 } Cell;
 Cell new_cell_inactive ();
 Cell new_cell ();
@@ -44,10 +45,11 @@ Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
      */
 #define CELLCONTAINER_LENGTH 200
 typedef struct CellContainer {
-    Cell *cells[CELLCONTAINER_LENGTH];
+    Cell cells[CELLCONTAINER_LENGTH];
 } CellContainer;
 void init_cellcontainer (CellContainer cc);
 void cellcontainer_addCell(CellContainer *cc, Cell *c);
+void cellcontainer_removeCell(CellContainer *cc, Cell *c);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
 
 /**************** Gameplan OBJECT ****************/

@@ -4,6 +4,7 @@
         "stdint.h": "c",
         "stdlib.h": "c",
         "corecrt_malloc.h": "c",
-        "func.h": "c"
+        "func.h": "c",
+        "data.h": "c"
     }
 }

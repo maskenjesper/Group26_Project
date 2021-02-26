@@ -38,12 +38,9 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	*cell = new_cell_la(10, 4, 1, 0);
-	cell->a = 1;
-	cell->p = 0;
-	cell->x = 0;
-	cell->y = 0;
-	cc.cells[0] = cell;
+	*cell = new_cell_la(100, 4, 1, 0);
+	cellcontainer_addCell(&cc, cell);
+	//cellcontainer_removeCell(&cc, cell);
 
 	screenbuffer_updateCellcontainer(cc);
 
