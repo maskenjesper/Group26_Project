@@ -45,6 +45,7 @@ Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 typedef struct ShapeContainer {
     Shape shapes[SHAPECONTAINER_LENGTH];
 } ShapeContainer;
+ShapeContainer new_shapecontainer ();
 
 /**************** Gameplan OBJECT ****************/
 /*

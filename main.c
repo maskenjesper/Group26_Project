@@ -35,7 +35,13 @@ int main () {
 
 	init();
 
+	int i, k;
+	for (i = 0; i < 128; i++)
+		for (k = 0; k < 32; k++)
+			screenbuffer_add(i, k);
+
 	ShapeContainer sc;
+	screenbuffer_updateShapecontainer(sc);
 
 	return 0;
 }

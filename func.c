@@ -201,6 +201,13 @@ void display_screenbuffer () {
     }
 }
 
+void screenbuffer_clear (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
+    int i, k;
+    for (i = x1; i < x2; i++)
+        for (k = y1; k < y2; k++)
+            screenbuffer_remove(i, k);
+}
+
 void screenbuffer_add (uint8_t x, uint8_t y) {
     uint8_t row = y / 8;
     screenbuffer[row][x] |= 1 << y - row * 8;
@@ -250,7 +257,8 @@ void screenbuffer_drawBoundry () {
 
 void screenbuffer_updateShapecontainer (ShapeContainer sc) {
     int i, k;
+    screenbuffer_clear(GAMEPLAN_X1, GAMEPLAN_Y1, GAMEPLAN_X2, GAMEPLAN_Y2);
     for (i = 0; i < SHAPECONTAINER_LENGTH; i++)
         for (k = 0; k < 4; k++)
-            screenbuffer_add(sc.shapes[i].c[k].x, sc.shapes[i].c[k].y);
+            screenbuffer_addCell(sc.shapes[i].c[k].x, sc.shapes[i].c[k].y);
 }

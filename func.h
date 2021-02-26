@@ -26,6 +26,7 @@ void display_update(void);
 void display_screenbuffer ();
 
 /* Declare screenbuffer-related functions */
+void screenbuffer_clear (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 void screenbuffer_add (uint8_t x, uint8_t y);
 void screenbuffer_remove (uint8_t x, uint8_t y);
 void screenbuffer_addCell (uint8_t x, uint8_t y);

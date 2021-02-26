@@ -176,6 +176,9 @@ Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
     return S;
 }
 
+/**************** ShapeContainer ****************/
+/*** CONSTRUCTORS ***/
+
 /**************** Gameplan ****************/
 /*** CONSTRUCTORS ***/
 /*Gameplan new_gameplan () {
