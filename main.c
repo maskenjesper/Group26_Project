@@ -26,13 +26,13 @@ void user_isr () {
 		if (getbtns() >> 1 & 0x1)
 			cellcontainer_moveShape(&cc, &S1, DOWN);
 		screenbuffer_updateCellcontainer(cc);
+		screenbuffer_drawBoundry();
 		display_screenbuffer();
 	}
 	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
 		timeoutcount = 0;
 		if (cellcontainer_moveShape(&cc, &S1, RIGHT))
 			locked = 0;
-
 	}
 	/************************************/
 

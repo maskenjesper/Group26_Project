@@ -236,11 +236,13 @@ void screenbuffer_removeCell (uint8_t x, uint8_t y) {
 
 void screenbuffer_drawBoundry () {
     int i;
-    for (i = 0; i < 128; i++)
-        screenbuffer_add(i, 24);
-    for (i = 0; i < 32; i++) {
-        screenbuffer_add(63, i);
-        screenbuffer_add(64, i);
+    for (i = GAMEPLAN_X1; i < GAMEPLAN_X2; i++) {
+        screenbuffer_add(i, GAMEPLAN_Y1);
+        screenbuffer_add(i, GAMEPLAN_Y2);
+    }
+    for (i = GAMEPLAN_Y1; i < GAMEPLAN_X2; i++) {
+        screenbuffer_add(GAMEPLAN_X1, i);
+        screenbuffer_add(GAMEPLAN_X2, i);
     }
 }
 
