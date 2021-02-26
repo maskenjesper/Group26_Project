@@ -10,6 +10,7 @@
 typedef struct Cell {
     uint8_t x, y, a, p;
 } Cell;
+Cell new_cell_inactive ();
 Cell new_cell ();
 Cell new_cell_lc(uint8_t x, uint8_t y);
 Cell new_cell_la(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
@@ -45,7 +46,7 @@ Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 typedef struct CellContainer {
     Cell cells[CELLCONTAINER_LENGTH];
 } CellContainer;
-CellContainer new_cellcontainer ();
+void init_cellcontainer (CellContainer *cc);
 
 /**************** Gameplan OBJECT ****************/
 /*

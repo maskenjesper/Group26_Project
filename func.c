@@ -260,5 +260,6 @@ void screenbuffer_updateCellcontainer (CellContainer sc) {
     screenbuffer_clear(GAMEPLAN_X1, GAMEPLAN_Y1, GAMEPLAN_X2, GAMEPLAN_Y2);
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         for (k = 0; k < 4; k++)
-            screenbuffer_addCell(sc.cells[i].x, sc.cells[i].y);
+            if (sc.cells[i].a == 1)
+                screenbuffer_addCell(sc.cells[i].x, sc.cells[i].y);
 }

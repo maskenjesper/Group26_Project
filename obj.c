@@ -4,6 +4,10 @@
 
 /**************** CELL  ****************/
 /*** CONSTRUCTORS ***/
+Cell new_cell_inactive () {
+    Cell c = {.x = 0, .y = 0, .a = 0, .p = 0};
+    return c;
+}   
 Cell new_cell () {
     Cell c = {.x = 0, .y = 0, .a = 1, .p = 0};
     return c;
@@ -177,7 +181,15 @@ Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 }
 
 /**************** CellContainer ****************/
-/*** CONSTRUCTORS ***/
+/*** Initialization ***/
+void init_cellcontainer (CellContainer *cc) {
+    Cell cells[CELLCONTAINER_LENGTH];
+    int i;
+    for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
+        Cell cell = new_cell_inactive();
+        cc->cells[i] = cell;
+    }
+}
 
 /**************** Gameplan ****************/
 /*** CONSTRUCTORS ***/
