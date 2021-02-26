@@ -14,7 +14,8 @@
 
 int timeoutcount = 0;
 CellContainer cc;
-Cell *cell;
+Cell cell;
+Shape s1;
 
 void user_isr () {
 
@@ -38,9 +39,12 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	*cell = new_cell(100, 4, 1, 0);
-	cellcontainer_addCell(&cc, cell);
-	//cellcontainer_removeCell(&cc, cell);
+	cell = new_cell(100, 4, 1, 0, 1);
+	cellcontainer_addCell(&cc, &cell);
+	//cellcontainer_removeCell(&cc, &cell);
+
+	s1 = new_shape(T, 50, 3, 1, 0, 1);
+	cellcontainer_addShape(&cc, & s1);
 
 	screenbuffer_updateCellcontainer(cc);
 

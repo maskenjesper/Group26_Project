@@ -11,7 +11,7 @@ typedef struct Cell {
     uint8_t x, y, a, p;
     uint16_t id;
 } Cell;
-Cell new_cell(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
+Cell new_cell(uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id);
 
 /**************** SHAPE OBJECT ****************/
 /*
@@ -33,9 +33,9 @@ typedef struct Shape {
     shape s;
     Cell c[4];
 } Shape;
-Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
+Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id);
 
-/**************** CellContainer OBJECT ****************/
+/**************** CELLCONTAINER OBJECT ****************/
 /*
      */
 #define CELLCONTAINER_LENGTH 200
