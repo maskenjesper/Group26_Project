@@ -28,9 +28,9 @@ void user_isr () {
 			gameplan_moveShape(S1, RIGHT);
 		if (getbtns() >> 1 & 0x1)
 			gameplan_moveShape(S1, LEFT);
-		draw_frame();
+		draw_frame(S1->s);
 	}
-	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
+	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 0) {	// Move testshape
 		timeoutcount = 0;
 		if (gameplan_moveShape(S1, DOWN))
 			locked = 0;

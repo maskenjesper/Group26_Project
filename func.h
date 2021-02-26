@@ -31,7 +31,7 @@ void screenbuffer_remove (uint8_t x, uint8_t y);
 void screenbuffer_addCell (uint8_t x, uint8_t y);
 void screenbuffer_removeCell (uint8_t x, uint8_t y);
 void screenbuffer_updateGameplan ();
-void screenbuffer_drawBoundry ();
+void screenbuffer_drawUI (enum shape s);
 
 /* Declare gameplan-related functions */
 void gameplan_addCell (struct Cell *c);

@@ -240,14 +240,17 @@ void screenbuffer_updateGameplan () {
                 screenbuffer_removeCell(k, 3 * i);
 }
 
-void screenbuffer_drawBoundry () {
-    int i;
+void screenbuffer_drawUI (enum shape s) {
+    int i, k;
     for (i = 0; i < 128; i++)
         screenbuffer_add(i, 24);
-    for (i = 0; i < 32; i++) {
-        screenbuffer_add(63, i);
-        screenbuffer_add(64, i);
-    }
+    for (i = 0; i < 32; i++)
+        screenbuffer_add(116, i);
+    /*for (i = 117; i < 128; i++)
+        for (k = 0; k < 32; k++)
+            screenbuffer_remove(i, k);*/
+    Shape temp = new_shape_lc(s, 118, 1);
+    gameplan_addShape(&temp);
 }
 
 void gameplan_addCell (Cell *c) {
@@ -345,7 +348,7 @@ int gameplan_moveShape (Shape *s, enum dir d) {
 }
 
 int cellCollision (Cell *c, enum dir d) {
-    if (d == UP && c->x == 0 || d == DOWN && c->x == 125 ||
+    if (d == UP && c->x == 0 || d == DOWN && c->x == 113 ||
         d == LEFT && c->y == 7 || d == RIGHT && c->y == 0 ||
         d == UP && gameplan[c->y][c->x - 3] == 1 ||
         d == DOWN && gameplan[c->y][c->x + 3] == 1 ||
@@ -372,8 +375,8 @@ int getbtns () {
     return ((PORTD >> 4) & 0xe) | ((PORTF >> 1) & 0x1);
 }
 
-void draw_frame() {
+void draw_frame(enum shape s) {
     screenbuffer_updateGameplan();
-    screenbuffer_drawBoundry();
+    screenbuffer_drawUI(s);
     display_screenbuffer();
 }
