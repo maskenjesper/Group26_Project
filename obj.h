@@ -42,11 +42,13 @@ Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 /**************** CellContainer OBJECT ****************/
 /*
      */
-#define CELLCONTAINER_LENGTH 100
+#define CELLCONTAINER_LENGTH 200
 typedef struct CellContainer {
-    Cell cells[CELLCONTAINER_LENGTH];
+    Cell *cells[CELLCONTAINER_LENGTH];
 } CellContainer;
 void init_cellcontainer (CellContainer *cc);
+void cellcontainer_addCell(CellContainer *cc, Cell *c);
+void cellcontainer_addShape(CellContainer *cc, Shape *s);
 
 /**************** Gameplan OBJECT ****************/
 /*

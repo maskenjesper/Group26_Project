@@ -40,8 +40,12 @@ int main () {
 		for (k = 0; k < 32; k++)
 			screenbuffer_add(i, k);
 
-	CellContainer cc;
-	init_cellcontainer(&cc);
+	CellContainer *cc;
+	init_cellcontainer(cc);
+	Cell *cell;
+	*cell = new_cell_lc(10, 4);
+	cell->x = 50;
+	cc->cells[0] = cell;
 
 	screenbuffer_updateCellcontainer(cc);
 

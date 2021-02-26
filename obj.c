@@ -183,12 +183,21 @@ Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 /**************** CellContainer ****************/
 /*** Initialization ***/
 void init_cellcontainer (CellContainer *cc) {
-    Cell cells[CELLCONTAINER_LENGTH];
     int i;
-    for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
-        Cell cell = new_cell_inactive();
-        cc->cells[i] = cell;
-    }
+    for (i = 0; i < CELLCONTAINER_LENGTH; i++)
+        *cc->cells[i] = new_cell_inactive();
+}
+/*** FUNCTIONS ***/
+void cellcontainer_addCell(CellContainer *cc, Cell *c) {
+    int i;
+    for (i = 0; i < CELLCONTAINER_LENGTH; i++)
+        if (cc->cells[i]->a == 0)
+            cc->cells[i] = c;
+}
+void cellcontainer_addShape(CellContainer *cc, Shape *s) {
+    int i;
+    for (i = 0; i < 4; i++)
+        cellcontainer_addCell(cc, &s->c[i]);
 }
 
 /**************** Gameplan ****************/

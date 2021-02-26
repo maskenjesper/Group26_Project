@@ -4,6 +4,7 @@
 
     For copyright and licensing, see file COPYING */
 
+#include <stdlib.h>
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "lib.h"
@@ -255,11 +256,10 @@ void screenbuffer_drawBoundry () {
                 screenbuffer_removeCell(k, 3 * i);
 }*/
 
-void screenbuffer_updateCellcontainer (CellContainer sc) {
+void screenbuffer_updateCellcontainer (CellContainer *cc) {
     int i, k;
     screenbuffer_clear(GAMEPLAN_X1, GAMEPLAN_Y1, GAMEPLAN_X2, GAMEPLAN_Y2);
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
-        for (k = 0; k < 4; k++)
-            if (sc.cells[i].a == 1)
-                screenbuffer_addCell(sc.cells[i].x, sc.cells[i].y);
+        if (cc->cells[i]->a == 1)
+            screenbuffer_addCell(cc->cells[i]->x, cc->cells[i]->y);
 }
