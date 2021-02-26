@@ -182,10 +182,10 @@ Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 
 /**************** CellContainer ****************/
 /*** Initialization ***/
-void init_cellcontainer (CellContainer *cc) {
+void init_cellcontainer (CellContainer cc) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
-        *cc->cells[i] = new_cell_inactive();
+        *cc.cells[i] = new_cell_inactive();
 }
 /*** FUNCTIONS ***/
 void cellcontainer_addCell(CellContainer *cc, Cell *c) {

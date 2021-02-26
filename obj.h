@@ -46,7 +46,7 @@ Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 typedef struct CellContainer {
     Cell *cells[CELLCONTAINER_LENGTH];
 } CellContainer;
-void init_cellcontainer (CellContainer *cc);
+void init_cellcontainer (CellContainer cc);
 void cellcontainer_addCell(CellContainer *cc, Cell *c);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
 

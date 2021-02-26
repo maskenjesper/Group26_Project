@@ -7,12 +7,14 @@
 
    For copyright and licensing, see file COPYING */
 
+#include <stdlib.h>
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "lib.h"
 
 int timeoutcount = 0;
-Shape *s;
+CellContainer cc;
+Cell *cell;
 
 void user_isr () {
 
@@ -34,18 +36,14 @@ void user_isr () {
 int main () {
 
 	init();
-
-	int i, k;
-	for (i = 0; i < 128; i++)
-		for (k = 0; k < 32; k++)
-			screenbuffer_add(i, k);
-
-	CellContainer *cc;
 	init_cellcontainer(cc);
-	Cell *cell;
-	*cell = new_cell_lc(10, 4);
-	cell->x = 50;
-	cc->cells[0] = cell;
+
+	*cell = new_cell_la(10, 4, 1, 0);
+	cell->a = 1;
+	cell->p = 0;
+	cell->x = 0;
+	cell->y = 0;
+	cc.cells[0] = cell;
 
 	screenbuffer_updateCellcontainer(cc);
 
