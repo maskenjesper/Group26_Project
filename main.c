@@ -13,20 +13,25 @@
 #include "lib.h"
 
 int timeoutcount = 0;
+int locked;
 CellContainer cc;
-Cell cell;
-Shape s1;
+Shape S1;
 
 void user_isr () {
 
 	/********** TMR2 Interrupt **********/
 	if ((IFS(0) >> 8) & 0x1) {		// Tick
+		if (getbtns() & 0x1)
+			cellcontainer_moveShape(&cc, &S1, UP);
+		if (getbtns() >> 1 & 0x1)
+			cellcontainer_moveShape(&cc, &S1, DOWN);
 		screenbuffer_updateCellcontainer(cc);
 		display_screenbuffer();
 	}
 	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
 		timeoutcount = 0;
-		cellcontainer_moveShape(&cc, &s1, RIGHT);
+		if (cellcontainer_moveShape(&cc, &S1, RIGHT))
+			locked = 0;
 
 	}
 	/************************************/
@@ -41,10 +46,27 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	s1 = new_shape(T, 50, 3, 1, 0, 1);
-	cellcontainer_addShape(&cc, & s1);
+	enum shape Shapes[100];
+	int i;
+	for (i = 0; i < 100; i++)
+		Shapes[i] = LLEFT;
 
-	
+	Shapes[1] = BOX;
+	Shapes[2] = STICK;
+	Shapes[3] = T;
+	Shapes[4] = LRIGHT;
+	Shapes[5] = ZLEFT;
+	Shapes[6] = ZRIGHT;
+
+	while (1)
+		for (i = 0; i < 100; i++ ) {
+			locked = 1;
+
+			Shape temp = new_shape(Shapes[i], 0, 3, 1, 0, idcount);
+			S1 = temp;
+			
+			while (locked);
+		}
 
 	return 0;
 }

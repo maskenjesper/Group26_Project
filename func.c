@@ -251,3 +251,11 @@ void screenbuffer_updateCellcontainer (CellContainer cc) {
         if (cc.cells[i].a == 1)
             screenbuffer_addCell(cc.cells[i].x, 3 * cc.cells[i].y);
 }
+
+int getsw () {
+    return (PORTD >> 8) & 0xf;
+}
+
+int getbtns () {
+    return ((PORTD >> 4) & 0xe) | ((PORTF >> 1) & 0x1);
+}

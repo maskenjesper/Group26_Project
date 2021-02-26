@@ -33,3 +33,6 @@ void screenbuffer_addCell (uint8_t x, uint8_t y);
 void screenbuffer_removeCell (uint8_t x, uint8_t y);
 void screenbuffer_drawBoundry ();
 void screenbuffer_updateCellcontainer (CellContainer cc);
+
+int getsw ();
+int getbtns ();
