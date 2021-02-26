@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "obj.h"
+#include "lib.h"
 
 /**************** CELL  ****************/
 /*** CONSTRUCTORS ***/
@@ -72,7 +73,7 @@ void init_cellcontainer (CellContainer cc) {
         cc.cells[i] = new_cell(0, 0, 0, 0, 0);
 }
 /*** FUNCTIONS ***/
-void cellcontainer_addCell(CellContainer *cc, Cell *c) {
+void cellcontainer_addCell (CellContainer *cc, Cell *c) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc->cells[i].a == 0) {
@@ -80,7 +81,7 @@ void cellcontainer_addCell(CellContainer *cc, Cell *c) {
             break;
         }
 }
-void cellcontainer_removeCell(CellContainer *cc, Cell *c) {
+void cellcontainer_removeCell (CellContainer *cc, Cell *c) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc->cells[i].id == c->id) {
@@ -88,14 +89,15 @@ void cellcontainer_removeCell(CellContainer *cc, Cell *c) {
             break;
         }
 }
-void cellcontainer_addShape(CellContainer *cc, Shape *s) {
+void cellcontainer_addShape (CellContainer *cc, Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         cellcontainer_addCell(cc, &s->c[i]);
 }
-
-void cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d) {
+int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     int i;
+    if (cellcontainer_shapeCheckCollisions(cc, s, d))
+        return 1;
     if (d == UP)
         for (i = 0; i < 4; i++) {
             cellcontainer_removeCell(cc, &s->c[i]);
@@ -120,4 +122,15 @@ void cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d) {
             s->c[i].x = s->c[i].x - 1;
             cellcontainer_addCell(cc, &s->c[i]);
         }
+    return 0;
+}
+int cellcontainer_shapeCheckCollisions (CellContainer *cc, Shape *s, DIR d) {
+    int i;
+    for (i = 0; i < 4; i++)
+        if (d == UP && s->c[i].y == GAMEPLAN_Y1 ||
+            d == DOWN && s->c[i].y == GAMEPLAN_Y2 ||
+            d == RIGHT && s->c[i].x == GAMEPLAN_X2 ||
+            d == LEFT && s->c[i].x == GAMEPLAN_X1)
+            return 1;
+    return 0;
 }

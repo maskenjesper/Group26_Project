@@ -47,5 +47,6 @@ void cellcontainer_addCell(CellContainer *cc, Cell *c);
 void cellcontainer_removeCell(CellContainer *cc, Cell *c);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
 typedef enum DIR {UP, DOWN, RIGHT, LEFT} DIR;
-void cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
+int cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
+int cellcontainer_checkCollisions (CellContainer *cc, Shape *s, DIR d);
 
