@@ -6,9 +6,7 @@
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "func.h"  /* Declatations for these labs */
-#include "data.h"
-#include "obj.h"
+#include "lib.h"
 
 /* quicksleep:
     A simple function to create a small delay.
@@ -248,4 +246,11 @@ void screenbuffer_updateGameplan (Gameplan *gp) {
             }
             else
                 screenbuffer_removeCell(k, 3 * i);
+}
+
+void screenbuffer_updateShapecontainer (ShapeContainer sc) {
+    int i, k;
+    for (i = 0; i < SHAPECONTAINER_LENGTH; i++)
+        for (k = 0; k < 4; k++)
+            screenbuffer_add(sc.shapes[i].c[k].x, sc.shapes[i].c[k].y);
 }

@@ -5,3 +5,7 @@
 #include "obj.h"
 
 void enable_interrupt();
+
+#define SCREEN_PIXEL_WIDTH 128
+#define SCREEN_PIXEL_HEIGHT 32
+
