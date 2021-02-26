@@ -255,10 +255,10 @@ void screenbuffer_drawBoundry () {
                 screenbuffer_removeCell(k, 3 * i);
 }*/
 
-void screenbuffer_updateShapecontainer (ShapeContainer sc) {
+void screenbuffer_updateCellcontainer (CellContainer sc) {
     int i, k;
     screenbuffer_clear(GAMEPLAN_X1, GAMEPLAN_Y1, GAMEPLAN_X2, GAMEPLAN_Y2);
-    for (i = 0; i < SHAPECONTAINER_LENGTH; i++)
+    for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         for (k = 0; k < 4; k++)
-            screenbuffer_addCell(sc.shapes[i].c[k].x, sc.shapes[i].c[k].y);
+            screenbuffer_addCell(sc.cells[i].x, sc.cells[i].y);
 }

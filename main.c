@@ -40,8 +40,7 @@ int main () {
 		for (k = 0; k < 32; k++)
 			screenbuffer_add(i, k);
 
-	ShapeContainer sc;
-	screenbuffer_updateShapecontainer(sc);
+	CellContainer sc;
 
 	return 0;
 }

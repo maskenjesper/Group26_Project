@@ -38,14 +38,14 @@ Shape new_shape (shape);
 Shape new_shape_lc(shape, uint8_t x, uint8_t y);
 Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 
-/**************** ShapeContainer OBJECT ****************/
+/**************** CellContainer OBJECT ****************/
 /*
      */
-#define SHAPECONTAINER_LENGTH 100
-typedef struct ShapeContainer {
-    Shape shapes[SHAPECONTAINER_LENGTH];
-} ShapeContainer;
-ShapeContainer new_shapecontainer ();
+#define CELLCONTAINER_LENGTH 100
+typedef struct CellContainer {
+    Cell cells[CELLCONTAINER_LENGTH];
+} CellContainer;
+CellContainer new_cellcontainer ();
 
 /**************** Gameplan OBJECT ****************/
 /*
