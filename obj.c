@@ -188,8 +188,8 @@ Shape new_shape_la (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
     return gp;
 }*/
 /*** FUNCTIONS ***/
-void gameplan_addShape (Gameplan *gp, Shape *s) {
+/*void gameplan_addShape (Gameplan *gp, Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         gp->c[s->y][s->x].a = 1;
-}
+}*/

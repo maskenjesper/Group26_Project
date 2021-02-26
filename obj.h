@@ -38,17 +38,6 @@ Shape new_shape (shape);
 Shape new_shape_lc(shape, uint8_t x, uint8_t y);
 Shape new_shape_la(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 
-/**************** Gameplan OBJECT ****************/
-/*
-     */
-    #define GAMEPLAN_PIXEL_WIDTH 126
-#define GAMEPLAN_PIXEL_HEIGHT 8
-typedef struct Gameplan {
-    Cell c[GAMEPLAN_PIXEL_HEIGHT][GAMEPLAN_PIXEL_WIDTH];
-} Gameplan;
-Gameplan new_gameplan ();
-void gameplan_addShape (Gameplan *gp, Shape *s);
-
 /**************** ShapeContainer OBJECT ****************/
 /*
      */
@@ -56,3 +45,14 @@ void gameplan_addShape (Gameplan *gp, Shape *s);
 typedef struct ShapeContainer {
     Shape shapes[SHAPECONTAINER_LENGTH];
 } ShapeContainer;
+
+/**************** Gameplan OBJECT ****************/
+/*
+     */
+    /*#define GAMEPLAN_PIXEL_WIDTH 126
+#define GAMEPLAN_PIXEL_HEIGHT 8
+typedef struct Gameplan {
+    Cell c[GAMEPLAN_PIXEL_HEIGHT][GAMEPLAN_PIXEL_WIDTH];
+} Gameplan;
+Gameplan new_gameplan ();
+void gameplan_addShape (Gameplan *gp, Shape *s);*/
