@@ -21,10 +21,12 @@ void user_isr () {
 
 	/********** TMR2 Interrupt **********/
 	if ((IFS(0) >> 8) & 0x1) {		// Tick
+		screenbuffer_updateCellcontainer(cc);
 		display_screenbuffer();
 	}
 	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
 		timeoutcount = 0;
+		cellcontainer_moveShape(&cc, &s1, RIGHT);
 
 	}
 	/************************************/
@@ -39,14 +41,10 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	cell = new_cell(100, 4, 1, 0, 1);
-	cellcontainer_addCell(&cc, &cell);
-	//cellcontainer_removeCell(&cc, &cell);
-
 	s1 = new_shape(T, 50, 3, 1, 0, 1);
 	cellcontainer_addShape(&cc, & s1);
 
-	screenbuffer_updateCellcontainer(cc);
+	
 
 	return 0;
 }

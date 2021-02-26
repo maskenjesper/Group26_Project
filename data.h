@@ -13,3 +13,4 @@ extern const uint8_t const icon[128];
 
 /* Declare screen buffer for display output */
 extern uint8_t screenbuffer[4][128];
+extern uint16_t idcount;
