@@ -26,6 +26,8 @@ void user_isr () {
 			cellcontainer_moveShape(&cc, &S1, UP);
 		if (getbtns() >> 1 & 0x1)
 			cellcontainer_moveShape(&cc, &S1, DOWN);
+		if (getbtns() >> 2 & 0x1)
+			cellcontainer_rotateShape(&cc, &S1);
 		screenbuffer_updateCellcontainer(cc);
 		screenbuffer_drawBoundry();
 		display_screenbuffer();
@@ -47,17 +49,20 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
+	/*S1 = new_shape(STICK, 6, 2, 1, 0);
+	cellcontainer_addShape(&cc, &S1);*/
+
 	enum shape Shapes[100];
 	int i;
 	for (i = 0; i < 100; i++)
-		Shapes[i] = LLEFT;
+		Shapes[i] = ZLEFT;
 
-	Shapes[1] = BOX;
-	Shapes[2] = STICK;
-	Shapes[3] = T;
-	Shapes[4] = LRIGHT;
+	/*Shapes[1] = LRIGHT;
+	Shapes[2] = LLEFT;
+	Shapes[3] = ZRIGHT;
+	Shapes[4] = ZLEFT;
 	Shapes[5] = ZLEFT;
-	Shapes[6] = ZRIGHT;
+	Shapes[6] = ZRIGHT;*/
 
 	while (1)
 		for (i = 0; i < 100; i++ ) {
