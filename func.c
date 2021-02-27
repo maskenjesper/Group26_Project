@@ -249,6 +249,8 @@ void screenbuffer_updateCellcontainer (CellContainer cc) {
             screenbuffer_addCell(cc.cells[i].x, 3 * cc.cells[i].y);
 }
 
+
+/********** input-related functions **********/
 int getsw () {
     return (PORTD >> 8) & 0xf;
 }
