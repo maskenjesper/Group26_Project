@@ -26,17 +26,14 @@ void user_isr () {
 			cellcontainer_moveShape(&cc, &S1, UP);
 		if (getbtns() >> 1 & 0x1)
 			cellcontainer_moveShape(&cc, &S1, DOWN);
-		if (getbtns() >> 2 & 0x1)
-			cellcontainer_moveShape(&cc, &S1, RIGHT);
-		if (getbtns() >> 3 & 0x1)
-			cellcontainer_moveShape(&cc, &S1, LEFT);
 		screenbuffer_updateCellcontainer(cc);
 		screenbuffer_drawBoundry();
 		display_screenbuffer();
 	}
-	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
+	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 0) {	// Move testshape
 		timeoutcount = 0;
-		//cellcontainer_moveShape(&cc, &S1, RIGHT);
+		if (cellcontainer_moveShape(&cc, &S1, RIGHT))
+			locked = 0;
 	}
 	/************************************/
 
@@ -50,13 +47,27 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	S1 = new_shape(T, 50, 4, 1, 0);
-	cellcontainer_addShape(&cc, &S1);
+	enum shape Shapes[100];
+	int i;
+	for (i = 0; i < 100; i++)
+		Shapes[i] = LLEFT;
 
-	S2 = new_shape(BOX, 30, 4, 1, 0);
-	cellcontainer_addShape(&cc, &S2);
-	cellcontainer_moveShape(&cc, &S2, DOWN);
+	Shapes[1] = BOX;
+	Shapes[2] = STICK;
+	Shapes[3] = T;
+	Shapes[4] = LRIGHT;
+	Shapes[5] = ZLEFT;
+	Shapes[6] = ZRIGHT;
 
+	while (1)
+		for (i = 0; i < 100; i++ ) {
+			locked = 1;
+
+			S1 = new_shape(Shapes[i], 0, 4, 1, 0);
+			cellcontainer_addShape(&cc, &S1);
+			
+			while (locked);
+		}
 
 	return 0;
 }
