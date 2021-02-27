@@ -13,7 +13,7 @@ Cell new_cell (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 /**************** SHAPE ****************/
 /*** CONSTRUCTORS ***/
 Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
-    Shape S = {.s = s, .x = x, .y = y, .a = a, .p = p};
+    Shape S = {.s = s, .a = a, .p = p};
     if (s == BOX) {
         S.c[0] = new_cell(x, y - 1, a, p);
         S.c[1] = new_cell(x, y, a, p);
@@ -190,4 +190,275 @@ int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
         cellcontainer_updateCell(cc, &s->c[i]);
     }
     return 0;
+}
+void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
+    int i;
+    Cell tempCells[4];
+    for (i = 0; i < 4; i++) {
+        tempCells[i] = s->c[i];
+        tempCells[i].p = 1;
+    }
+    if (s->s == STICK) {
+        if (s->r == 0) {
+            s->c[0].y += 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x += 3;
+
+            s->c[3].y -= 2;
+            s->c[3].x += 6;
+        }
+        else if (s->r == 1) {
+            s->c[0].y += 1;
+            s->c[0].x += 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y -= 2;
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 2) {
+            s->c[0].y -= 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y += 2;
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 3) {
+            s->c[0].y -= 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y += 1;
+            s->c[2].x += 3;
+
+            s->c[3].y += 2;
+            s->c[3].x += 6;
+        }
+    }
+
+    else if (s->s == T) {
+        if (s->r == 0) {
+            s->c[0].y += 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y -= 1;
+            s->c[3].x += 3;
+        }
+        else if (s->r == 1) {
+            s->c[0].y += 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y -= 1;
+            s->c[3].x -= 3;
+        }
+        else if (s->r == 2) {
+            s->c[0].y -= 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x += 3;
+
+            s->c[3].y += 1;
+            s->c[3].x -= 3;
+        }
+        else if (s->r == 3) {
+            s->c[0].y -= 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x += 3;
+
+            s->c[3].y += 1;
+            s->c[3].x += 3;
+        }
+    }
+
+    else if (s->s == LRIGHT) {
+        if (s->r == 0) {
+            s->c[1].y -= 1;
+            s->c[1].x += 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y -= 2;
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 1) {
+            s->c[1].y -= 1;
+            s->c[1].x -= 3;
+
+            s->c[2].y += 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y += 2;
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 2) {
+            s->c[1].y += 1;
+            s->c[1].x -= 3;
+
+            s->c[2].y += 1;
+            s->c[2].x += 3;
+
+            s->c[3].y += 2;
+            s->c[3].x += 6;
+        }
+        else if (s->r == 3) {
+            s->c[1].y += 1;
+            s->c[1].x += 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x += 3;
+
+            s->c[3].y -= 2;
+            s->c[3].x += 6;
+        }
+    }
+
+    else if (s->s == LLEFT) {
+        if (s->r == 0) {
+            s->c[0].y += 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y -= 2;
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 1) {
+            s->c[0].y += 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y += 2;
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 2) {
+            s->c[0].y -= 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x += 3;
+
+            s->c[3].y += 2;
+            s->c[3].x += 6;
+        }
+        else if (s->r == 3) {
+            s->c[0].y -= 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x += 3;
+
+            s->c[3].y -= 2;
+            s->c[3].x += 6;
+        }
+    }
+
+    else if (s->s == ZRIGHT) {
+        if (s->r == 0) {
+            s->c[0].y += 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x -= 3;
+
+            s->c[3].y -= 2;
+        }
+        else if (s->r == 1) {
+            s->c[0].y += 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x -= 3;
+
+            s->c[3].x -= 6;
+        }
+        else if (s->r == 2) {
+            s->c[0].y -= 1;
+            s->c[0].x += 3;
+
+            s->c[2].y += 1;
+            s->c[2].x += 3;
+
+            s->c[3].y += 2;
+        }
+        else if (s->r == 3) {
+            s->c[0].y -= 1;
+            s->c[0].x -= 3;
+
+            s->c[2].y -= 1;
+            s->c[2].x += 3;
+
+            s->c[3].x += 6;
+        }
+    }
+
+    else {
+        if (s->r == 0) {
+            tempCells[0].x -= 6;
+
+            tempCells[2].y -= 1;
+            tempCells[2].x -= 3;
+
+            tempCells[3].y -= 1;
+            tempCells[3].x += 3;
+        }
+        else if (s->r == 1) {
+            tempCells[0].y += 2;
+
+            tempCells[2].y += 1;
+            tempCells[2].x -= 3;
+
+            tempCells[3].y -= 1;
+            tempCells[3].x -= 3;
+        }
+        else if (s->r == 2) {
+            tempCells[0].x += 6;
+
+            tempCells[2].y += 1;
+            tempCells[2].x += 3;
+
+            tempCells[3].y += 1;
+            tempCells[3].x -= 3;
+        }
+        else if (s->r == 3) {
+            tempCells[0].y -= 2;
+
+            tempCells[2].y -= 1;
+            tempCells[2].x += 3;
+
+            tempCells[3].y += 1;
+            tempCells[3].x += 3;
+        }
+    }
+
+    if (s->r == 3)
+        s->r = 0;
+    else
+        s->r++;
+
+    for (i = 0; i < 4; i++) {
+        tempCells[i].p = 1;
+        s->c[i] = tempCells[i];
+        cellcontainer_updateCell(cc, &s->c[i]);
+    }
+}
+int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) {
+    
 }

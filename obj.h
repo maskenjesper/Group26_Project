@@ -29,7 +29,7 @@ Cell new_cell(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
             centercell, one of the cells is the centercell. */
 typedef enum shape {BOX, STICK, T, LRIGHT, LLEFT, ZRIGHT, ZLEFT} shape;
 typedef struct Shape {
-    uint8_t x, y, a, p;
+    uint8_t a, p, r;
     shape s;
     Cell c[4];
 } Shape;
@@ -51,4 +51,5 @@ void cellcontainer_updateCell (CellContainer *cc, Cell *c);
 int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
 int cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
-
+void cellcontainer_rotateShape (CellContainer *cc, Shape *s);
+int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y);
