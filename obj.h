@@ -11,7 +11,7 @@ typedef struct Cell {
     uint8_t x, y, a, p;
     uint16_t id;
 } Cell;
-Cell new_cell(uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id);
+Cell new_cell(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 
 /**************** SHAPE OBJECT ****************/
 /*
@@ -33,7 +33,7 @@ typedef struct Shape {
     shape s;
     Cell c[4];
 } Shape;
-Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id);
+Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 
 /**************** CELLCONTAINER OBJECT ****************/
 /*
@@ -42,11 +42,13 @@ Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id);
 typedef struct CellContainer {
     Cell cells[CELLCONTAINER_LENGTH];
 } CellContainer;
+typedef enum DIR {UP, DOWN, RIGHT, LEFT} DIR;
 void init_cellcontainer (CellContainer cc);
 void cellcontainer_addCell(CellContainer *cc, Cell *c);
 void cellcontainer_removeCell(CellContainer *cc, Cell *c);
+void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d);
+void cellcontainer_updateCell (CellContainer *cc, Cell *c);
+int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
-typedef enum DIR {UP, DOWN, RIGHT, LEFT} DIR;
 int cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
-int cellcontainer_checkCollisions (CellContainer *cc, Shape *s, DIR d);
 

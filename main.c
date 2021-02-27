@@ -15,7 +15,8 @@
 int timeoutcount = 0;
 int locked;
 CellContainer cc;
-Shape S1;
+Shape S1, S2;
+Cell C1, C2, C3, C4;
 
 void user_isr () {
 
@@ -25,14 +26,17 @@ void user_isr () {
 			cellcontainer_moveShape(&cc, &S1, UP);
 		if (getbtns() >> 1 & 0x1)
 			cellcontainer_moveShape(&cc, &S1, DOWN);
+		if (getbtns() >> 2 & 0x1)
+			cellcontainer_moveShape(&cc, &S1, RIGHT);
+		if (getbtns() >> 3 & 0x1)
+			cellcontainer_moveShape(&cc, &S1, LEFT);
 		screenbuffer_updateCellcontainer(cc);
 		screenbuffer_drawBoundry();
 		display_screenbuffer();
 	}
 	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 1) {	// Move testshape
 		timeoutcount = 0;
-		if (cellcontainer_moveShape(&cc, &S1, RIGHT))
-			locked = 0;
+		//cellcontainer_moveShape(&cc, &S1, RIGHT);
 	}
 	/************************************/
 
@@ -46,27 +50,13 @@ int main () {
 	init();
 	init_cellcontainer(cc);
 
-	enum shape Shapes[100];
-	int i;
-	for (i = 0; i < 100; i++)
-		Shapes[i] = LLEFT;
+	S1 = new_shape(T, 50, 4, 1, 0);
+	cellcontainer_addShape(&cc, &S1);
 
-	Shapes[1] = BOX;
-	Shapes[2] = STICK;
-	Shapes[3] = T;
-	Shapes[4] = LRIGHT;
-	Shapes[5] = ZLEFT;
-	Shapes[6] = ZRIGHT;
+	S2 = new_shape(BOX, 30, 4, 1, 0);
+	cellcontainer_addShape(&cc, &S2);
+	cellcontainer_moveShape(&cc, &S2, UP);
 
-	while (1)
-		for (i = 0; i < 100; i++ ) {
-			locked = 1;
-
-			Shape temp = new_shape(Shapes[i], 0, 3, 1, 0, idcount);
-			S1 = temp;
-			
-			while (locked);
-		}
 
 	return 0;
 }

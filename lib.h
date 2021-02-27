@@ -11,5 +11,6 @@ void enable_interrupt();
 
 #define GAMEPLAN_X1 0
 #define GAMEPLAN_Y1 0
-#define GAMEPLAN_X2 60
+#define GAMEPLAN_X2 90
 #define GAMEPLAN_Y2 30
+

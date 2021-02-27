@@ -5,62 +5,62 @@
 
 /**************** CELL  ****************/
 /*** CONSTRUCTORS ***/
-Cell new_cell (uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id) {
-    Cell c = {.x = x, .y = y, .a = a, .p = p, .id = id};
+Cell new_cell (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
+    Cell c = {.x = x, .y = y, .a = a, .p = p, .id = idcount++};
     return c;
 }
 
 /**************** SHAPE ****************/
 /*** CONSTRUCTORS ***/
-Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t id) {
+Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
     Shape S = {.s = s, .x = x, .y = y, .a = a, .p = p};
     if (s == BOX) {
-        S.c[0] = new_cell(x, y - 1, a, p, id++);
-        S.c[1] = new_cell(x, y, a, p, id++);
-        S.c[2] = new_cell(x + 3, y - 1, a, p, id++);
-        S.c[3] = new_cell(x + 3, y, a, p, id++);
+        S.c[0] = new_cell(x, y - 1, a, p);
+        S.c[1] = new_cell(x, y, a, p);
+        S.c[2] = new_cell(x + 3, y - 1, a, p);
+        S.c[3] = new_cell(x + 3, y, a, p);
     }
 
     else if (s == STICK) {
-        S.c[0] = new_cell(x, y - 1, a, p, id++);
-        S.c[1] = new_cell(x, y, a, p, id++);
-        S.c[2] = new_cell(x, y + 1, a, p, id++);
-        S.c[3] = new_cell(x, y + 2, a, p, id++);
+        S.c[0] = new_cell(x, y - 1, a, p);
+        S.c[1] = new_cell(x, y, a, p);
+        S.c[2] = new_cell(x, y + 1, a, p);
+        S.c[3] = new_cell(x, y + 2, a, p);
     }
 
     else if (s == T) {
-        S.c[0] = new_cell(x, y - 1, a, p, id++);
-        S.c[1] = new_cell(x, y, a, p, id++);
-        S.c[2] = new_cell(x + 3, y, a, p, id++);
-        S.c[3] = new_cell(x, y + 1, a, p, id++);
+        S.c[0] = new_cell(x, y - 1, a, p);
+        S.c[1] = new_cell(x, y, a, p);
+        S.c[2] = new_cell(x + 3, y, a, p);
+        S.c[3] = new_cell(x, y + 1, a, p);
     }
 
     else if (s == LRIGHT) {
-        S.c[0] = new_cell(x, y, a, p, id++);
-        S.c[1] = new_cell(x, y + 1, a, p, id++);
-        S.c[2] = new_cell(x + 3, y, a, p, id++);
-        S.c[3] = new_cell(x + 6, y, a, p, id++);
+        S.c[0] = new_cell(x, y, a, p);
+        S.c[1] = new_cell(x, y + 1, a, p);
+        S.c[2] = new_cell(x + 3, y, a, p);
+        S.c[3] = new_cell(x + 6, y, a, p);
     }
 
     else if (s == LLEFT) {
-        S.c[0] = new_cell(x, y - 1, a, p, id++);
-        S.c[1] = new_cell(x, y, a, p, id++);
-        S.c[2] = new_cell(x + 3, y, a, p, id++);
-        S.c[3] = new_cell(x + 6, y, a, p, id++);
+        S.c[0] = new_cell(x, y - 1, a, p);
+        S.c[1] = new_cell(x, y, a, p);
+        S.c[2] = new_cell(x + 3, y, a, p);
+        S.c[3] = new_cell(x + 6, y, a, p);
     }
 
     else if (s == ZRIGHT) {
-        S.c[0] = new_cell(x, y - 1, a, p, id++);
-        S.c[1] = new_cell(x, y, a, p, id++);
-        S.c[2] = new_cell(x + 3, y, a, p, id++);
-        S.c[3] = new_cell(x + 3, y + 1, a, p, id++);
+        S.c[0] = new_cell(x, y - 1, a, p);
+        S.c[1] = new_cell(x, y, a, p);
+        S.c[2] = new_cell(x + 3, y, a, p);
+        S.c[3] = new_cell(x + 3, y + 1, a, p);
     }
 
     else {
-        S.c[0] = new_cell(x + 3, y - 1, a, p, id++);
-        S.c[1] = new_cell(x, y, a, p, id++);
-        S.c[2] = new_cell(x + 3, y, a, p, id++);
-        S.c[3] = new_cell(x, y + 1, a, p, id++);
+        S.c[0] = new_cell(x + 3, y - 1, a, p);
+        S.c[1] = new_cell(x, y, a, p);
+        S.c[2] = new_cell(x + 3, y, a, p);
+        S.c[3] = new_cell(x, y + 1, a, p);
     }
     return S;
 }
@@ -70,7 +70,7 @@ Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p, uint16_t i
 void init_cellcontainer (CellContainer cc) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
-        cc.cells[i] = new_cell(0, 0, 0, 0, 0);
+        cc.cells[i] = new_cell(0, 0, 0, 0);
 }
 /*** FUNCTIONS ***/
 void cellcontainer_addCell (CellContainer *cc, Cell *c) {
@@ -85,9 +85,42 @@ void cellcontainer_removeCell (CellContainer *cc, Cell *c) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc->cells[i].id == c->id) {
-            cc->cells[i].a = 0;
+            cc->cells[i] = new_cell(0, 0, 0, 0);
             break;
         }
+}
+void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d) {
+    if (d == UP)
+        c->y -= 1;
+    else if (d == DOWN)
+        c->y += 1;
+    else if (d == RIGHT)
+        c->x += 1;
+    else   
+        c->x -= 1;
+    cellcontainer_updateCell(cc, c);
+}
+void cellcontainer_updateCell (CellContainer *cc, Cell *c) {
+    int i;
+    for (i = 0; i < CELLCONTAINER_LENGTH; i++)
+        if (cc->cells[i].id == c->id) {
+            cc->cells[i] = *c;
+            break;
+        }
+}
+int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d) {
+    int i;
+    if (d == UP && c->y == GAMEPLAN_Y1 ||
+        d == DOWN && c->y == GAMEPLAN_Y2 / 3 - 1||
+        d == RIGHT && c->x == GAMEPLAN_X2 - 3 ||
+        d == LEFT && c->x == GAMEPLAN_X1)
+        return 1;
+    else if (d == RIGHT)
+        for (i = 0; i < CELLCONTAINER_LENGTH; i++)
+            if (cc->cells[i].p == 0)
+                if (cc->cells[i].x == c->x + 3 && cc->cells[i].y == c->y) 
+                    return 1;
+    return 0;
 }
 void cellcontainer_addShape (CellContainer *cc, Shape *s) {
     int i;
@@ -96,41 +129,23 @@ void cellcontainer_addShape (CellContainer *cc, Shape *s) {
 }
 int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     int i;
-    if (cellcontainer_shapeCheckCollisions(cc, s, d))
-        return 1;
-    if (d == UP)
-        for (i = 0; i < 4; i++) {
-            cellcontainer_removeCell(cc, &s->c[i]);
-            s->c[i].y = s->c[i].y - 1;
-            cellcontainer_addCell(cc, &s->c[i]);
-        }
-    else if (d == DOWN)
-        for (i = 0; i < 4; i++) {
-            cellcontainer_removeCell(cc, &s->c[i]);
-            s->c[i].y = s->c[i].y + 1;
-            cellcontainer_addCell(cc, &s->c[i]);
-        }
-    else if (d == RIGHT)
-        for (i = 0; i < 4; i++) {
-            cellcontainer_removeCell(cc, &s->c[i]);
-            s->c[i].x = s->c[i].x + 1;
-            cellcontainer_addCell(cc, &s->c[i]);
-        }
-    else 
-        for (i = 0; i < 4; i++) {
-            cellcontainer_removeCell(cc, &s->c[i]);
-            s->c[i].x = s->c[i].x - 1;
-            cellcontainer_addCell(cc, &s->c[i]);
-        }
-    return 0;
-}
-int cellcontainer_shapeCheckCollisions (CellContainer *cc, Shape *s, DIR d) {
-    int i;
+    for (i = 0; i < 4; i++) {
+        s->c[i].p = 1;
+        cellcontainer_updateCell(cc, &s->c[i]);
+    }
     for (i = 0; i < 4; i++)
-        if (d == UP && s->c[i].y == GAMEPLAN_Y1 ||
-            d == DOWN && s->c[i].y == GAMEPLAN_Y2 ||
-            d == RIGHT && s->c[i].x == GAMEPLAN_X2 ||
-            d == LEFT && s->c[i].x == GAMEPLAN_X1)
+        if (cellcontainer_cellCheckCollision(cc, &s->c[i], d)) {
+            for (i = 0; i < 4; i++) {
+                s->c[i].p = 0;
+                cellcontainer_updateCell(cc, &s->c[i]);
+            }
             return 1;
+        }
+    for (i = 0; i < 4; i++)
+        cellcontainer_moveCell(cc, &s->c[i], d);
+    for (i = 0; i < 4; i++) {
+        s->c[i].p = 0;
+        cellcontainer_updateCell(cc, &s->c[i]);
+    }
     return 0;
 }
