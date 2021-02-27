@@ -55,7 +55,7 @@ int main () {
 
 	S2 = new_shape(BOX, 30, 4, 1, 0);
 	cellcontainer_addShape(&cc, &S2);
-	cellcontainer_moveShape(&cc, &S2, UP);
+	cellcontainer_moveShape(&cc, &S2, DOWN);
 
 
 	return 0;

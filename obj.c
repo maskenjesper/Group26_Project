@@ -113,13 +113,55 @@ int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d) {
     if (d == UP && c->y == GAMEPLAN_Y1 ||
         d == DOWN && c->y == GAMEPLAN_Y2 / 3 - 1||
         d == RIGHT && c->x == GAMEPLAN_X2 - 3 ||
-        d == LEFT && c->x == GAMEPLAN_X1)
+        d == LEFT && c->x == GAMEPLAN_X1) {
         return 1;
-    else if (d == RIGHT)
-        for (i = 0; i < CELLCONTAINER_LENGTH; i++)
-            if (cc->cells[i].p == 0)
-                if (cc->cells[i].x == c->x + 3 && cc->cells[i].y == c->y) 
+        }
+    else if (d == RIGHT) {
+        for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
+            if (cc->cells[i].p == 0) {
+                if (cc->cells[i].x == c->x + 3 && cc->cells[i].y == c->y) {
                     return 1;
+                }
+            }
+        }
+    }
+    else if (d == LEFT) {
+        for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
+            if (cc->cells[i].p == 0) {
+                if (cc->cells[i].x == c->x - 3 && cc->cells[i].y == c->y) {
+                    return 1;
+                }
+            }
+        }
+    }
+    else if (d == UP) {
+        for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
+            if (cc->cells[i].p == 0) {
+                if ((   cc->cells[i].x == c->x || 
+                        cc->cells[i].x == c->x + 1 || 
+                        cc->cells[i].x == c->x + 2 ||
+                        cc->cells[i].x == c->x - 1 ||
+                        cc->cells[i].x == c->x - 2) && 
+                        cc->cells[i].y == c->y - 1) {
+                    return 1;
+                }
+            }
+        }
+    }
+    else if (d == DOWN) {
+        for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
+            if (cc->cells[i].p == 0) {
+                if ((   cc->cells[i].x == c->x || 
+                        cc->cells[i].x == c->x + 1 || 
+                        cc->cells[i].x == c->x + 2 ||
+                        cc->cells[i].x == c->x - 1 ||
+                        cc->cells[i].x == c->x - 2) && 
+                        cc->cells[i].y == c->y + 1) {
+                    return 1;
+                }
+            }
+        }
+    }
     return 0;
 }
 void cellcontainer_addShape (CellContainer *cc, Shape *s) {
