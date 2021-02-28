@@ -239,6 +239,10 @@ void screenbuffer_drawBoundry () {
     for (i = GAMEPLAN_Y1; i < GAMEPLAN_Y2; i++) {
         screenbuffer_add(GAMEPLAN_X2, i);
     }
+    for (i = 0; i < SCREEN_PIXEL_WIDTH; i++) {
+        screenbuffer_add(i, 30);
+        screenbuffer_add(i, 31);
+    }
 }
 
 void screenbuffer_updateCellcontainer (CellContainer cc) {

@@ -192,273 +192,304 @@ int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     return 0;
 }
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
+    if (s->s == BOX)
+        return;
     int i;
-    Cell tempCells[4];
+    Shape tempShape = *s;
     for (i = 0; i < 4; i++) {
-        tempCells[i] = s->c[i];
-        tempCells[i].p = 1;
+        s->c[i].p = 1;
+        cellcontainer_updateCell(cc, &s->c[i]);
+        tempShape.c[i] = s->c[i];
+        cellcontainer_updateCell(cc, &tempShape.c[i]);
     }
     if (s->s == STICK) {
         if (s->r == 0) {
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y -= 2;
-            s->c[3].x += 6;
+            tempShape.c[3].y -= 2;
+            tempShape.c[3].x += 6;
         }
         else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y -= 2;
-            s->c[3].x -= 6;
+            tempShape.c[3].y -= 2;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y += 2;
-            s->c[3].x -= 6;
+            tempShape.c[3].y += 2;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y += 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y += 2;
-            s->c[3].x += 6;
+            tempShape.c[3].y += 2;
+            tempShape.c[3].x += 6;
         }
     }
 
     else if (s->s == T) {
         if (s->r == 0) {
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y -= 1;
-            s->c[3].x += 3;
+            tempShape.c[3].y -= 1;
+            tempShape.c[3].x += 3;
         }
         else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y -= 1;
-            s->c[3].x -= 3;
+            tempShape.c[3].y -= 1;
+            tempShape.c[3].x -= 3;
         }
         else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y += 1;
-            s->c[3].x -= 3;
+            tempShape.c[3].y += 1;
+            tempShape.c[3].x -= 3;
         }
         else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y += 1;
-            s->c[3].x += 3;
+            tempShape.c[3].y += 1;
+            tempShape.c[3].x += 3;
         }
     }
 
     else if (s->s == LRIGHT) {
         if (s->r == 0) {
-            s->c[1].y -= 1;
-            s->c[1].x += 3;
+            tempShape.c[1].y -= 1;
+            tempShape.c[1].x += 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y -= 2;
-            s->c[3].x -= 6;
+            tempShape.c[3].y -= 2;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 1) {
-            s->c[1].y -= 1;
-            s->c[1].x -= 3;
+            tempShape.c[1].y -= 1;
+            tempShape.c[1].x -= 3;
 
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y += 2;
-            s->c[3].x -= 6;
+            tempShape.c[3].y += 2;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 2) {
-            s->c[1].y += 1;
-            s->c[1].x -= 3;
+            tempShape.c[1].y += 1;
+            tempShape.c[1].x -= 3;
 
-            s->c[2].y += 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y += 2;
-            s->c[3].x += 6;
+            tempShape.c[3].y += 2;
+            tempShape.c[3].x += 6;
         }
         else if (s->r == 3) {
-            s->c[1].y += 1;
-            s->c[1].x += 3;
+            tempShape.c[1].y += 1;
+            tempShape.c[1].x += 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y -= 2;
-            s->c[3].x += 6;
+            tempShape.c[3].y -= 2;
+            tempShape.c[3].x += 6;
         }
     }
 
     else if (s->s == LLEFT) {
         if (s->r == 0) {
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y -= 2;
-            s->c[3].x -= 6;
+            tempShape.c[3].y -= 2;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y += 2;
-            s->c[3].x -= 6;
+            tempShape.c[3].y += 2;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y += 2;
-            s->c[3].x += 6;
+            tempShape.c[3].y += 2;
+            tempShape.c[3].x += 6;
         }
         else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y -= 2;
-            s->c[3].x += 6;
+            tempShape.c[3].y -= 2;
+            tempShape.c[3].x += 6;
         }
     }
 
     else if (s->s == ZRIGHT) {
         if (s->r == 0) {
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].y -= 2;
+            tempShape.c[3].y -= 2;
         }
         else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y += 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x -= 3;
 
-            s->c[3].x -= 6;
+            tempShape.c[3].x -= 6;
         }
         else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x += 3;
 
-            s->c[2].y += 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].y += 2;
+            tempShape.c[3].y += 2;
         }
         else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
+            tempShape.c[0].y -= 1;
+            tempShape.c[0].x -= 3;
 
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x += 3;
 
-            s->c[3].x += 6;
+            tempShape.c[3].x += 6;
         }
     }
 
     else {
         if (s->r == 0) {
-            tempCells[0].x -= 6;
+            tempShape.c[0].x -= 6;
 
-            tempCells[2].y -= 1;
-            tempCells[2].x -= 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x -= 3;
 
-            tempCells[3].y -= 1;
-            tempCells[3].x += 3;
+            tempShape.c[3].y -= 1;
+            tempShape.c[3].x += 3;
         }
         else if (s->r == 1) {
-            tempCells[0].y += 2;
+            tempShape.c[0].y += 2;
 
-            tempCells[2].y += 1;
-            tempCells[2].x -= 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x -= 3;
 
-            tempCells[3].y -= 1;
-            tempCells[3].x -= 3;
+            tempShape.c[3].y -= 1;
+            tempShape.c[3].x -= 3;
         }
         else if (s->r == 2) {
-            tempCells[0].x += 6;
+            tempShape.c[0].x += 6;
 
-            tempCells[2].y += 1;
-            tempCells[2].x += 3;
+            tempShape.c[2].y += 1;
+            tempShape.c[2].x += 3;
 
-            tempCells[3].y += 1;
-            tempCells[3].x -= 3;
+            tempShape.c[3].y += 1;
+            tempShape.c[3].x -= 3;
         }
         else if (s->r == 3) {
-            tempCells[0].y -= 2;
+            tempShape.c[0].y -= 2;
 
-            tempCells[2].y -= 1;
-            tempCells[2].x += 3;
+            tempShape.c[2].y -= 1;
+            tempShape.c[2].x += 3;
 
-            tempCells[3].y += 1;
-            tempCells[3].x += 3;
+            tempShape.c[3].y += 1;
+            tempShape.c[3].x += 3;
         }
     }
 
+    if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
+        return;
+    }
+
+    // wrapping up
     if (s->r == 3)
         s->r = 0;
     else
         s->r++;
-
+    // copying back
     for (i = 0; i < 4; i++) {
-        tempCells[i].p = 1;
-        s->c[i] = tempCells[i];
+        s->c[i] = tempShape.c[i];
         cellcontainer_updateCell(cc, &s->c[i]);
     }
 }
-int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) {
-    
+int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
+    int i, k;
+    for (i = 0; i < 4; i++) {
+        /***** Boundry collisioncheck *****/
+        if (s->c[i].y < GAMEPLAN_Y1 ||
+            s->c[i].x < GAMEPLAN_X1 ||
+            s->c[i].y >= GAMEPLAN_Y2 / 3 || 
+            s->c[i].x > GAMEPLAN_X2 - 2) {
+            return 1;
+        }
+        /***** Cell collisioncheck *****/
+        /*for (k = 0; k < CELLCONTAINER_LENGTH; k++) {
+            if (cc->cells[k].p == 0 &&
+                cc->cells[k].a == 1 && 
+                cc->cells[k].x == s->c[i].x && 
+                cc->cells[k].y == s->c[i].y) {
+                for (i = 0; i < 4; i++) {
+                    s->c[i].p = 0;
+                    cellcontainer_updateCell(cc, &s->c[i]);
+                }
+                return 1;
+            }
+        }*/
+    }
+    return 0;
 }
