@@ -52,8 +52,4 @@ int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
 int cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s);
-<<<<<<< HEAD
 int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s);
-=======
-int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y);
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c

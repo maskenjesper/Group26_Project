@@ -192,7 +192,6 @@ int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     return 0;
 }
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
-<<<<<<< HEAD
     if (s->s == BOX)
         return;
     int i;
@@ -243,60 +242,11 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
 
             tempShape.c[3].y += 2;
             tempShape.c[3].x += 6;
-=======
-    int i;
-    Cell tempCells[4];
-    for (i = 0; i < 4; i++) {
-        tempCells[i] = s->c[i];
-        tempCells[i].p = 1;
-    }
-    if (s->s == STICK) {
-        if (s->r == 0) {
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
-
-            s->c[3].y -= 2;
-            s->c[3].x += 6;
-        }
-        else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y -= 2;
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y += 2;
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y += 1;
-            s->c[2].x += 3;
-
-            s->c[3].y += 2;
-            s->c[3].x += 6;
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
         }
     }
 
     else if (s->s == T) {
         if (s->r == 0) {
-<<<<<<< HEAD
             tempShape.c[0].y += 1;
             tempShape.c[0].x -= 3;
 
@@ -335,52 +285,11 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
 
             tempShape.c[3].y += 1;
             tempShape.c[3].x += 3;
-=======
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y -= 1;
-            s->c[3].x += 3;
-        }
-        else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y -= 1;
-            s->c[3].x -= 3;
-        }
-        else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x += 3;
-
-            s->c[3].y += 1;
-            s->c[3].x -= 3;
-        }
-        else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
-
-            s->c[3].y += 1;
-            s->c[3].x += 3;
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
         }
     }
 
     else if (s->s == LRIGHT) {
         if (s->r == 0) {
-<<<<<<< HEAD
             tempShape.c[1].y -= 1;
             tempShape.c[1].x += 3;
 
@@ -419,52 +328,11 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
 
             tempShape.c[3].y -= 2;
             tempShape.c[3].x += 6;
-=======
-            s->c[1].y -= 1;
-            s->c[1].x += 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y -= 2;
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 1) {
-            s->c[1].y -= 1;
-            s->c[1].x -= 3;
-
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y += 2;
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 2) {
-            s->c[1].y += 1;
-            s->c[1].x -= 3;
-
-            s->c[2].y += 1;
-            s->c[2].x += 3;
-
-            s->c[3].y += 2;
-            s->c[3].x += 6;
-        }
-        else if (s->r == 3) {
-            s->c[1].y += 1;
-            s->c[1].x += 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
-
-            s->c[3].y -= 2;
-            s->c[3].x += 6;
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
         }
     }
 
     else if (s->s == LLEFT) {
         if (s->r == 0) {
-<<<<<<< HEAD
             tempShape.c[0].y += 1;
             tempShape.c[0].x -= 3;
 
@@ -503,52 +371,11 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
 
             tempShape.c[3].y -= 2;
             tempShape.c[3].x += 6;
-=======
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y -= 2;
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y += 2;
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x += 3;
-
-            s->c[3].y += 2;
-            s->c[3].x += 6;
-        }
-        else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
-
-            s->c[3].y -= 2;
-            s->c[3].x += 6;
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
         }
     }
 
     else if (s->s == ZRIGHT) {
         if (s->r == 0) {
-<<<<<<< HEAD
             tempShape.c[0].y += 1;
             tempShape.c[0].x -= 3;
 
@@ -583,48 +410,11 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
             tempShape.c[2].x += 3;
 
             tempShape.c[3].x += 6;
-=======
-            s->c[0].y += 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x -= 3;
-
-            s->c[3].y -= 2;
-        }
-        else if (s->r == 1) {
-            s->c[0].y += 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x -= 3;
-
-            s->c[3].x -= 6;
-        }
-        else if (s->r == 2) {
-            s->c[0].y -= 1;
-            s->c[0].x += 3;
-
-            s->c[2].y += 1;
-            s->c[2].x += 3;
-
-            s->c[3].y += 2;
-        }
-        else if (s->r == 3) {
-            s->c[0].y -= 1;
-            s->c[0].x -= 3;
-
-            s->c[2].y -= 1;
-            s->c[2].x += 3;
-
-            s->c[3].x += 6;
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
         }
     }
 
     else {
         if (s->r == 0) {
-<<<<<<< HEAD
             tempShape.c[0].x -= 6;
 
             tempShape.c[2].y -= 1;
@@ -667,50 +457,10 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
     }
 
     // wrapping up
-=======
-            tempCells[0].x -= 6;
-
-            tempCells[2].y -= 1;
-            tempCells[2].x -= 3;
-
-            tempCells[3].y -= 1;
-            tempCells[3].x += 3;
-        }
-        else if (s->r == 1) {
-            tempCells[0].y += 2;
-
-            tempCells[2].y += 1;
-            tempCells[2].x -= 3;
-
-            tempCells[3].y -= 1;
-            tempCells[3].x -= 3;
-        }
-        else if (s->r == 2) {
-            tempCells[0].x += 6;
-
-            tempCells[2].y += 1;
-            tempCells[2].x += 3;
-
-            tempCells[3].y += 1;
-            tempCells[3].x -= 3;
-        }
-        else if (s->r == 3) {
-            tempCells[0].y -= 2;
-
-            tempCells[2].y -= 1;
-            tempCells[2].x += 3;
-
-            tempCells[3].y += 1;
-            tempCells[3].x += 3;
-        }
-    }
-
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
     if (s->r == 3)
         s->r = 0;
     else
         s->r++;
-<<<<<<< HEAD
     // copying back
     for (i = 0; i < 4; i++) {
         s->c[i] = tempShape.c[i];
@@ -742,12 +492,4 @@ int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
         }*/
     }
     return 0;
-=======
-
-    for (i = 0; i < 4; i++) {
-        tempCells[i].p = 1;
-        s->c[i] = tempCells[i];
-        cellcontainer_updateCell(cc, &s->c[i]);
-    }
->>>>>>> 48b674fc67b1c3cb2158cf338102d8512a17ac1c
 }
