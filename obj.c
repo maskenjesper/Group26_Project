@@ -452,8 +452,19 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
         }
     }
 
+    // Try to adjust for collision
     if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
-        return;
+        cellcontainer_moveShape(cc, &tempShape, UP);
+        if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
+            cellcontainer_moveShape(cc, &tempShape, UP);
+    }
+    if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
+        cellcontainer_moveShape(cc, &tempShape, DOWN);
+        if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
+            cellcontainer_moveShape(cc, &tempShape, DOWN);
+            if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
+                return;
+        }
     }
 
     // wrapping up
