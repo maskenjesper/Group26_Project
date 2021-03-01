@@ -36,8 +36,10 @@ void user_isr () {
 	}
 	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 0) {	// Move testshape
 		timeoutcount = 0;
-		if (cellcontainer_moveShape(&cc, &S1, RIGHT))
+		if (cellcontainer_moveShape(&cc, &S1, RIGHT)) {
 			locked = 0;
+			cellcontainer_scanForRows(&cc);
+		}
 	}
 	/************************************/
 
@@ -60,15 +62,15 @@ int main () {
 	enum shape Shapes[100];
 	int i;
 	for (i = 0; i < 100; i++)
-		Shapes[i] = ZLEFT;
+		Shapes[i] = STICK;
 
-	Shapes[0] = BOX;
+	/*Shapes[0] = BOX;
 	Shapes[1] = STICK;
 	Shapes[2] = T;
 	Shapes[3] = LRIGHT;
 	Shapes[4] = LLEFT;
 	Shapes[5] = ZRIGHT;
-	Shapes[6] = ZLEFT;
+	Shapes[6] = ZLEFT;*/
 
 	while (1)
 		for (i = 1; i < 100; i++ ) {

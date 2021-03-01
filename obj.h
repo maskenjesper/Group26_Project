@@ -38,7 +38,7 @@ Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 /**************** CELLCONTAINER OBJECT ****************/
 /*
      */
-#define CELLCONTAINER_LENGTH 200
+#define CELLCONTAINER_LENGTH 810
 typedef struct CellContainer {
     Cell cells[CELLCONTAINER_LENGTH];
 } CellContainer;
@@ -53,3 +53,6 @@ void cellcontainer_addShape(CellContainer *cc, Shape *s);
 int cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s);
 int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s);
+int cellcontainer_scanForRows (CellContainer *cc);
+int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y);
+void cellcontainer_removeRow (CellContainer *cc, uint8_t x);
