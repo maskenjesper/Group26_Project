@@ -199,13 +199,12 @@ int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
     if (s->s == BOX)
         return;
-    int i;
     Shape tempShape = *s;
+    int i;
     for (i = 0; i < 4; i++) {
         s->c[i].p = 1;
-        cellcontainer_updateCell(cc, &s->c[i]);
         tempShape.c[i] = s->c[i];
-        cellcontainer_updateCell(cc, &tempShape.c[i]);
+        cellcontainer_updateCell(cc, &s->c[i]);
     }
     if (s->s == STICK) {
         if (s->r == 0) {
@@ -458,7 +457,7 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
     }
 
     // Try to adjust for collision
-    if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
+    /*if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
         cellcontainer_moveShape(cc, &tempShape, UP);
         if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
             cellcontainer_moveShape(cc, &tempShape, UP);
@@ -470,21 +469,23 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
             if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
                 return;
         }
-    }
+    }*/
+    if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
+        return;
 
     // wrapping up
     if (s->r == 3)
         s->r = 0;
     else
         s->r++;
-    // copying back
     for (i = 0; i < 4; i++) {
+        s->c[i].p = 0;
         s->c[i] = tempShape.c[i];
         cellcontainer_updateCell(cc, &s->c[i]);
     }
 }
 int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
-    int i, k;
+    int i, k, m;
     for (i = 0; i < 4; i++) {
         /***** Boundry collisioncheck *****/
         if (s->c[i].y < GAMEPLAN_Y1 ||
@@ -494,18 +495,18 @@ int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
             return 1;
         }
         /***** Cell collisioncheck *****/
-        /*for (k = 0; k < CELLCONTAINER_LENGTH; k++) {
+        for (k = 0; k < CELLCONTAINER_LENGTH; k++) {
             if (cc->cells[k].p == 0 &&
                 cc->cells[k].a == 1 && 
-                cc->cells[k].x == s->c[i].x && 
+                (cc->cells[k].x == s->c[i].x || 
+                cc->cells[k].x == s->c[i].x + 1 || 
+                cc->cells[k].x == s->c[i].x + 2 || 
+                cc->cells[k].x == s->c[i].x - 1 || 
+                cc->cells[k].x == s->c[i].x - 2) && 
                 cc->cells[k].y == s->c[i].y) {
-                for (i = 0; i < 4; i++) {
-                    s->c[i].p = 0;
-                    cellcontainer_updateCell(cc, &s->c[i]);
-                }
                 return 1;
             }
-        }*/
+        }
     }
     return 0;
 }

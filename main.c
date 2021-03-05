@@ -14,6 +14,7 @@
 #include <string.h>
 
 ScoreInitialsPair highScores[4];
+int score = 0;
 int running = 1;
 GameState gameState = MAINMENU;
 int timeoutcount = 0;
@@ -45,7 +46,6 @@ int main () {
 
 void gameplay () {
 	init_cellcontainer(&cc);
-	PR2 = 31250;
 
 	screenbuffer_drawBoundry();
 
@@ -81,9 +81,6 @@ void gameplay () {
 			while (locked)
 				if (gameState != GAMEPLAY)
 					return;
-
-			/*if (PR2 > 20000)
-				PR2 -= 50;*/
 		}
 }
 
@@ -146,7 +143,7 @@ void interrupts_gameplay () {
 	/********** TMR2 Interrupt **********/
 	if ((IFS(0) >> 8) & 0x1) {	// Move testshape
 		if (cellcontainer_moveShape(&cc, &currentShape, RIGHT)) {
-			cellcontainer_scanForRows(&cc);
+			score += cellcontainer_scanForRows(&cc);
 			locked = 0;
 		}
 	}
