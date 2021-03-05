@@ -67,10 +67,10 @@ Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 
 /**************** CELLCONTAINER ****************/
 /*** INITIALIZATION ***/
-void init_cellcontainer (CellContainer cc) {
+void init_cellcontainer (CellContainer *cc) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
-        cc.cells[i] = new_cell(0, 0, 0, 0);
+        cc->cells[i] = new_cell(0, 0, 0, 0);
 }
 /*** FUNCTIONS ***/
 void cellcontainer_addCell (CellContainer *cc, Cell *c) {
@@ -168,6 +168,11 @@ void cellcontainer_addShape (CellContainer *cc, Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         cellcontainer_addCell(cc, &s->c[i]);
+}
+void cellcontainer_removeShape (CellContainer *cc, Shape *s) {
+    int i;
+    for (i = 0; i < 4; i++)
+        cellcontainer_removeCell(cc, &s->c[i]);
 }
 int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     int i;

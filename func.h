@@ -14,7 +14,10 @@
 #define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
+char * itoaconv( int num );
+
 void init ();
+enum shape shapeGenerator ();
 
 /* Declare display-related functions */
 void quicksleep(int cyc);
@@ -33,6 +36,7 @@ void screenbuffer_addCell (uint8_t x, uint8_t y);
 void screenbuffer_removeCell (uint8_t x, uint8_t y);
 void screenbuffer_drawBoundry ();
 void screenbuffer_updateCellcontainer (CellContainer cc);
+void draw_frame (CellContainer *cc);
 
 /* Declare input-related functions */
 int getsw ();

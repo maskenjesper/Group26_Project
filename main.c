@@ -11,76 +11,172 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "lib.h"
+#include <string.h>
 
+ScoreInitialsPair highScores[4];
+int running = 1;
+GameState gameState = MAINMENU;
 int timeoutcount = 0;
 int locked;
 CellContainer cc;
-Shape S1, S2;
+Shape currentShape, nextShape;
 Cell C1, C2, C3, C4;
-
-void user_isr () {
-
-	/********** TMR2 Interrupt **********/
-	if ((IFS(0) >> 8) & 0x1) {		// Tick
-		if (getbtns() & 0x1)
-			cellcontainer_moveShape(&cc, &S1, UP);
-		if (getbtns() >> 1 & 0x1)
-			cellcontainer_moveShape(&cc, &S1, DOWN);
-		if (getbtns() >> 2 & 0x1)
-			cellcontainer_rotateShape(&cc, &S1);
-		if (getbtns() >> 3 & 0x1)
-			cellcontainer_moveShape(&cc, &S1, RIGHT);
-		screenbuffer_updateCellcontainer(cc);
-		screenbuffer_drawBoundry();
-		display_screenbuffer();
-	}
-	if ((IFS(0) >> 8) & 0x1 && timeoutcount++ == 0) {	// Move testshape
-		timeoutcount = 0;
-		if (cellcontainer_moveShape(&cc, &S1, RIGHT)) {
-			locked = 0;
-			cellcontainer_scanForRows(&cc);
-		}
-	}
-	/************************************/
-
-	// Clear flags
-    IFS(0) &= ~0x100;
-    IFS(0) &= ~0x80;
-}
 
 int main () {
 
 	init();
-	init_cellcontainer(cc);
 
+	while (running) {
+		switch (gameState) {
+			case GAMEPLAY:
+				gameplay();
+				break;
+			case MAINMENU:
+				mainMenu();
+				break;
+			case HIGHSCORE:
+				highScore();
+				break;
+		}
+	}
+
+	return 0;
+}
+
+void gameplay () {
+	init_cellcontainer(&cc);
+	PR2 = 31250;
+
+	screenbuffer_drawBoundry();
+
+	// Adds some cells at the bottom of the gameplan
 	int m;
 	for (m = 0; m < 10; m++) {
 		C3 = new_cell(GAMEPLAN_X2, m, 1, 0);
 		cellcontainer_addCell(&cc, &C3);
 	}
 
-	enum shape Shapes[100];
+	// Creates randomized array of shape enums
+	#define NUMBER_OF_SHAPES 100
+	enum shape Shapes[NUMBER_OF_SHAPES];
 	int i;
-	for (i = 0; i < 100; i++)
-		Shapes[i] = STICK;
+	for (i = 0; i < NUMBER_OF_SHAPES; i++)
+		Shapes[i] = shapeGenerator();
 
-	/*Shapes[0] = BOX;
-	Shapes[1] = STICK;
-	Shapes[2] = T;
-	Shapes[3] = LRIGHT;
-	Shapes[4] = LLEFT;
-	Shapes[5] = ZRIGHT;
-	Shapes[6] = ZLEFT;*/
-
+	// Main game-loop
 	while (1)
-		for (i = 1; i < 100; i++ ) {
+		for (i = 0; i < NUMBER_OF_SHAPES; i++ ) {
 			locked = 1;
 
-			S1 = new_shape(Shapes[i], 0, 4, 1, 0);
-			cellcontainer_addShape(&cc, &S1);
-			
-			while (locked);
-		}
+			currentShape = new_shape(Shapes[i], 0, 4, 1, 0);
+			cellcontainer_addShape(&cc, &currentShape);
 
-	return 0;
+			cellcontainer_removeShape(&cc, &nextShape);
+			if (i < NUMBER_OF_SHAPES - 1)
+				nextShape = new_shape(Shapes[i + 1], 119, 1, 1, 0);
+			else
+				nextShape = new_shape(Shapes[0], 119, 1, 1, 0);
+			cellcontainer_addShape(&cc, &nextShape);
+
+			while (locked)
+				if (gameState != GAMEPLAY)
+					return;
+
+			/*if (PR2 > 20000)
+				PR2 -= 50;*/
+		}
+}
+
+void highScore () {
+	display_string(0, "High Scores");
+
+	int i;
+	for (i = 0; i < 4; i++) {
+		char *score = itoaconv(highScores[i].score);
+		display_string(i + 1, score);
+	}
+
+	display_update();
+
+	while (1)
+		if (gameState != HIGHSCORE)
+			return;
+}
+
+void mainMenu () {
+	display_string(0, "   TETRIS");
+	display_string(1, "1. Start game");
+	display_string(2, "2. High scores");
+	display_string(3, "");
+	display_update();
+
+	while (1) {
+		if (getbtns() >> 3 & 0x1) {
+			gameState = GAMEPLAY;
+			return;
+		}
+		if (getbtns() >> 2 & 0x1) {
+			gameState = HIGHSCORE;
+			return;
+		}
+	}
+}
+
+void user_isr () {
+
+	switch (gameState) {
+		case GAMEPLAY:
+			interrupts_gameplay();
+			break;
+		case MAINMENU:
+			interrupts_mainMenu();
+			break;
+		case HIGHSCORE:
+			interrupts_highScore();
+			break;
+	}
+
+	// Clear flags
+    IFS(0) &= ~0x100;
+    IFS(0) &= ~0x80;
+	IFS(0) &= ~0x1000;
+}
+
+void interrupts_gameplay () {
+	/********** TMR2 Interrupt **********/
+	if ((IFS(0) >> 8) & 0x1) {	// Move testshape
+		if (cellcontainer_moveShape(&cc, &currentShape, RIGHT)) {
+			cellcontainer_scanForRows(&cc);
+			locked = 0;
+		}
+	}
+
+	/********** TMR3 Interrupt **********/
+	if ((IFS(0) >> 12) & 0x1) {		// Tick
+		if (getbtns() & 0x1)
+			cellcontainer_moveShape(&cc, &currentShape, UP);
+		if (getbtns() >> 1 & 0x1)
+			cellcontainer_moveShape(&cc, &currentShape, DOWN);
+		if (getbtns() >> 2 & 0x1)
+			cellcontainer_rotateShape(&cc, &currentShape);
+		if (getbtns() >> 3 & 0x1)
+			cellcontainer_moveShape(&cc, &currentShape, RIGHT);
+		draw_frame(&cc);
+	}
+
+	/*********** SW1 Interrupt ***********/
+	if ((IFS(0) >> 7) & 0x1) {
+		gameState = MAINMENU;
+	}
+}
+
+void interrupts_highScore () {
+	/*********** SW1 Interrupt ***********/
+	if ((IFS(0) >> 7) & 0x1) {
+		gameState = MAINMENU;
+	}
+}
+
+void interrupts_mainMenu() {
+
 }

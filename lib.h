@@ -14,3 +14,14 @@ void enable_interrupt();
 #define GAMEPLAN_X2 90
 #define GAMEPLAN_Y2 30
 
+void *stdin, *stdout, *stderr;
+
+
+void gameplay ();
+void interrupts_gameplay ();
+void interrupts_mainMenu ();
+void mainMenu ();
+void interrupts_highScore ();
+void highScore ();
+
+typedef enum {GAMEPLAY, MAINMENU, HIGHSCORE} GameState;
