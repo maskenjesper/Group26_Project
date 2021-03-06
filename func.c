@@ -340,10 +340,8 @@ void screenbuffer_drawBoundry () {
         screenbuffer_add(i, 30);
         screenbuffer_add(i, 31);
     }
-    for (i = 117; i < 128; i++)
+    for (i = 92; i < 128; i++)
         screenbuffer_add(i, 14);
-    for (i = 0; i <= 14; i++)
-        screenbuffer_add(117, i);
 }
 
 void screenbuffer_updateCellcontainer (CellContainer cc) {
@@ -369,4 +367,26 @@ int getsw () {
 
 int getbtns () {
     return ((PORTD >> 4) & 0xe) | ((PORTF >> 1) & 0x1);
+}
+
+void addScore (int *score, int rows) {
+    switch (rows) {
+        case 0:
+            *score += 0;
+        case 1:
+            *score += 10;
+            break;
+        case 2:
+            *score += 25;
+            break;
+        case 3:
+            *score += 40;
+            break;
+        case 4:
+            *score += 55;
+            break;
+        default:
+            *score += 100;
+            break;
+    }
 }

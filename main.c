@@ -79,9 +79,9 @@ void gameplay () {
 
 			cellcontainer_removeShape(&cc, &nextShape);
 			if (i < NUMBER_OF_SHAPES - 1)
-				nextShape = new_shape(Shapes[i + 1], 119, 1, 1, 0);
+				nextShape = new_shape(Shapes[i + 1], 105, 1, 1, 0);
 			else
-				nextShape = new_shape(Shapes[0], 119, 1, 1, 0);
+				nextShape = new_shape(Shapes[0], 105, 1, 1, 0);
 			cellcontainer_addShape(&cc, &nextShape);
 
 			while (locked)
@@ -149,22 +149,24 @@ void interrupts_gameplay () {
 	/********** TMR2 Interrupt **********/
 	if ((IFS(0) >> 8) & 0x1) {	// Move testshape
 		if (cellcontainer_moveShape(&cc, &currentShape, RIGHT)) {
+			//addScore(&score, cellcontainer_scanForRows(&cc));
 			score += cellcontainer_scanForRows(&cc);
 			locked = 0;
+			return;
 		}
+		if (getbtns() >> 3 & 0x1)
+			cellcontainer_moveShape(&cc, &currentShape, RIGHT);
+		draw_frame(&cc);
 	}
 
 	/********** TMR3 Interrupt **********/
-	if ((IFS(0) >> 12) & 0x1) {		// Tick
+	if ((IFS(0) >> 12) & 0x1) {
 		if (getbtns() & 0x1)
 			cellcontainer_moveShape(&cc, &currentShape, UP);
 		if (getbtns() >> 1 & 0x1)
 			cellcontainer_moveShape(&cc, &currentShape, DOWN);
 		if (getbtns() >> 2 & 0x1)
 			cellcontainer_rotateShape(&cc, &currentShape);
-		if (getbtns() >> 3 & 0x1)
-			cellcontainer_moveShape(&cc, &currentShape, RIGHT);
-		draw_frame(&cc);
 	}
 
 	/*********** SW1 Interrupt ***********/

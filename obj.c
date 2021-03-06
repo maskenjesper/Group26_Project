@@ -470,12 +470,15 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
         if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
             for (i = 0; i < 4; i++)
                 tempShape.c[i].y--;
-            if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
+            if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
+                for (i = 0; i < 4; i++) {
+                    s->c[i].p = 0;
+                    cellcontainer_updateCell(cc, &s->c[i]);
+                }
                 return;
+            }
         }
     }
-    /*if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
-        return;*/
 
     // wrapping up
     if (s->r == 3)

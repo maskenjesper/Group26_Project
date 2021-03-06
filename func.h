@@ -41,3 +41,5 @@ void draw_frame (CellContainer *cc);
 /* Declare input-related functions */
 int getsw ();
 int getbtns ();
+
+void addScore (int *score, int rows);
