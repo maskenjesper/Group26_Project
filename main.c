@@ -6,6 +6,7 @@
 
 ScoreInitialsPair highScores[4];
 int score = 0;
+char initial[] = {'A', 'A'};
 int running = 1;
 GameState gameState = MAINMENU;
 int timeoutcount = 0;
@@ -27,6 +28,9 @@ int main () {
 				mainMenu();
 				break;
 			case HIGHSCORE:
+				highScore();
+				break;
+			case GAMEEND:
 				highScore();
 				break;
 		}
@@ -63,8 +67,7 @@ void gameplay () {
 
 			currentShape = new_shape(Shapes[i], 0, 4, 1, 0);
 			if (cellcontainer_checkShapeOverlapping(&cc, &currentShape)) {
-				// TODO:	put the score on appropriate position
-				highScores[0].score = score;
+				gameEnd();
 				gameState = MAINMENU;
 				return;
 			}
@@ -86,10 +89,19 @@ void gameplay () {
 void highScore () {
 	display_string(0, "High Scores");
 
-	int i;
-	for (i = 0; i < 4; i++) {
+	int i, m;
+	for (i = 1; i < 4; i++) {
 		char *score = itoaconv(highScores[i].score);
-		display_string(i + 1, score);
+		
+		char entry[15];
+		entry[0] = highScores[i].c1;
+		entry[1] = highScores[i].c2;
+		int pos = 2;
+		while (*score) {
+			entry[pos++] = *score;
+			score++;
+		}
+		display_string(i, entry);
 	}
 
 	display_update();
@@ -118,6 +130,22 @@ void mainMenu () {
 	}
 }
 
+void gameEnd () {
+	gameState = GAMEEND;
+	display_string(0, "GAME OVER");
+	display_string(1, "Type Initials");
+	
+	
+	while (1) {
+		display_string(2, initial);
+		display_update();
+		if (gameState != GAMEEND) {
+			addHighscoreEntry(highScores, score, initial[0], initial[1]);
+			return;
+		}
+	}
+}
+
 void user_isr () {
 
 	switch (gameState) {
@@ -129,6 +157,9 @@ void user_isr () {
 			break;
 		case HIGHSCORE:
 			interrupts_highScore();
+			break;
+		case GAMEEND:
+			interrupts_gameEnd();
 			break;
 	}
 
@@ -146,8 +177,10 @@ void interrupts_gameplay () {
 			locked = 0;
 			return;
 		}
-		if (getbtns() >> 3 & 0x1)
+		if (getbtns() >> 3 & 0x1) {
 			cellcontainer_moveShape(&cc, &currentShape, RIGHT);
+			cellcontainer_moveShape(&cc, &currentShape, RIGHT);
+		}
 		draw_frame(&cc, score);
 	}
 
@@ -176,4 +209,22 @@ void interrupts_highScore () {
 
 void interrupts_mainMenu() {
 
+}
+
+void interrupts_gameEnd () {
+	/********** TMR3 Interrupt **********/
+	if ((IFS(0) >> 12) & 0x1) {
+		if (getbtns() & 0x1)
+			initial[1]++;
+		if (getbtns() >> 1 & 0x1)
+			initial[1]--;
+		if (getbtns() >> 2 & 0x1)
+			initial[0]++;
+		if (getbtns() >> 3 & 0x1)
+			initial[0]--;
+	}
+	/*********** SW1 Interrupt ***********/
+	if ((IFS(0) >> 7) & 0x1) {
+		gameState = GAMEPLAY;
+	}
 }

@@ -45,3 +45,5 @@ int getsw ();
 int getbtns ();
 
 void addScore (int *score, int rows);
+
+void addHighscoreEntry (ScoreInitialsPair highScore[], int newScore, char initial1, char initial2);

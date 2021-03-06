@@ -449,3 +449,24 @@ void addScore (int *score, int rows) {
         *score += 100;
     }
 }
+
+void addHighscoreEntry (ScoreInitialsPair highScore[], int newScore, char initial1, char initial2) {
+    int place;
+    int i;
+    if (newScore <= highScore[3].score)
+        return;
+	for (i = 1; i < 3; i++) {
+		if (highScore[i].score >= newScore)
+			continue;
+        else
+            break;
+	}
+    place = i;
+	int pos = place;
+	for (i = 3; i > place; i--){
+		highScore[i] = highScore[i - 1];
+	}
+	highScore[pos].score = newScore;
+    highScore[pos].c1 = initial1;
+    highScore[pos].c2 = initial2;
+}

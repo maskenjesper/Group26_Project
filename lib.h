@@ -23,5 +23,7 @@ void interrupts_mainMenu ();
 void mainMenu ();
 void interrupts_highScore ();
 void highScore ();
+void gameEnd ();
+void interrupts_gameEnd ();
 
-typedef enum {GAMEPLAY, MAINMENU, HIGHSCORE} GameState;
+typedef enum {GAMEPLAY, MAINMENU, HIGHSCORE, GAMEEND} GameState;
