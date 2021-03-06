@@ -49,6 +49,8 @@ void gameplay () {
 
 	screenbuffer_drawBoundry();
 
+	score = 0;
+
 	// Adds some cells at the bottom of the gameplan
 	int m;
 	for (m = 0; m < 10; m++) {
@@ -149,8 +151,7 @@ void interrupts_gameplay () {
 	/********** TMR2 Interrupt **********/
 	if ((IFS(0) >> 8) & 0x1) {	// Move testshape
 		if (cellcontainer_moveShape(&cc, &currentShape, RIGHT)) {
-			//addScore(&score, cellcontainer_scanForRows(&cc));
-			score += cellcontainer_scanForRows(&cc);
+			addScore(&score, cellcontainer_scanForRows(&cc));
 			locked = 0;
 			return;
 		}

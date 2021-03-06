@@ -370,23 +370,22 @@ int getbtns () {
 }
 
 void addScore (int *score, int rows) {
-    switch (rows) {
-        case 0:
-            *score += 0;
-        case 1:
-            *score += 10;
-            break;
-        case 2:
-            *score += 25;
-            break;
-        case 3:
-            *score += 40;
-            break;
-        case 4:
-            *score += 55;
-            break;
-        default:
-            *score += 100;
-            break;
+    if (rows == 0) {
+        return;
+    }
+    else if (rows == 1) {
+        *score += 10;
+    }
+    else if (rows == 2) {
+        *score += 25;
+    }
+    else if (rows == 3) {
+        *score += 40;
+    }
+    else if (rows == 4) {
+        *score += 55;
+    }
+    else {
+        *score += 100;
     }
 }
