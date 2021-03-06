@@ -280,6 +280,41 @@ enum shape shapeGenerator () {
     return n;
 }
 
+void display_printScore(char *s) {
+    int i;
+    char buffer[4];
+    buffer[0] = 's';
+    for (i = 1; i < 4; i++)
+        if (*s) {
+            buffer[i] = *s;
+            s++;
+        } 
+        else
+            buffer[i] = ' ';
+    //////////////////////////////////////
+    int j, k;
+    int c;
+
+    DISPLAY_CHANGE_TO_COMMAND_MODE;
+    spi_send_recv(0x22);
+    spi_send_recv(3);
+    
+    spi_send_recv(0x0);
+    spi_send_recv(0x10);
+    
+    DISPLAY_CHANGE_TO_DATA_MODE;
+    
+    for (j = 0; j < 4; j++) {
+        c = buffer[j];
+        if (c & 0x80)
+            continue;
+        
+        for (k = 0; k < 8; k++)
+            spi_send_recv(font[c*8 + k]);
+    }
+    
+}
+
 void display_screenbuffer () {
     int i, j;
 
@@ -297,6 +332,29 @@ void display_screenbuffer () {
         for (j = 0; j < 128; j++)
             spi_send_recv(screenbuffer[i][j]);
     }
+}
+
+void screenbuffer_addScore (char *s) {
+    int i, k;
+    char buffer[4];
+    buffer[0] = 's';
+    for (i = 1; i < 4; i++)
+        if (*s) {
+            buffer[i] = *s;
+            s++;
+        } 
+        else
+            buffer[i] = ' ';
+    //////////////////////////////////////
+    int c;
+    for (i = 0; i < 4; i++) {
+            c = buffer[i];
+            if (c & 0x80)
+                continue;
+            
+            for (k = 0; k < 8; k++)
+                screenbuffer[3][93 + i * 7 + k] = font[c*8 + k];
+        }
 }
 
 void screenbuffer_clear (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
@@ -336,7 +394,7 @@ void screenbuffer_drawBoundry () {
     for (i = GAMEPLAN_Y1; i < GAMEPLAN_Y2; i++) {
         screenbuffer_add(GAMEPLAN_X2, i);
     }
-    for (i = 0; i < SCREEN_PIXEL_WIDTH; i++) {
+    for (i = 0; i < GAMEPLAN_X2 + 2; i++) {
         screenbuffer_add(i, 30);
         screenbuffer_add(i, 31);
     }
@@ -347,15 +405,17 @@ void screenbuffer_drawBoundry () {
 void screenbuffer_updateCellcontainer (CellContainer cc) {
     int i, k;
     screenbuffer_clear(GAMEPLAN_X1, GAMEPLAN_Y1, GAMEPLAN_X2, GAMEPLAN_Y2);
-    screenbuffer_clear(91, 0, 128, 30);
+    screenbuffer_clear(91, 0, 128, 14);
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc.cells[i].a == 1)
             screenbuffer_addCell(cc.cells[i].x, 3 * cc.cells[i].y);
 }
 
-void draw_frame (CellContainer *cc) {
+void draw_frame (CellContainer *cc, int score) {
     screenbuffer_updateCellcontainer(*cc);
     screenbuffer_drawBoundry();
+    char *temp = itoaconv(score);
+    screenbuffer_addScore(temp);
     display_screenbuffer();
 }
 

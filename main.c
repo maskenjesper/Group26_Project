@@ -1,12 +1,3 @@
-/* mipslabmain.c
-
-   This file written 2015 by Axel Isaksson,
-   modified 2015, 2017 by F Lundevall
-
-   Latest update 2017-04-21 by F Lundevall
-
-   For copyright and licensing, see file COPYING */
-
 #include <stdlib.h>
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
@@ -157,7 +148,7 @@ void interrupts_gameplay () {
 		}
 		if (getbtns() >> 3 & 0x1)
 			cellcontainer_moveShape(&cc, &currentShape, RIGHT);
-		draw_frame(&cc);
+		draw_frame(&cc, score);
 	}
 
 	/********** TMR3 Interrupt **********/
