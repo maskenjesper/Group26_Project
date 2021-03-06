@@ -457,21 +457,25 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
     }
 
     // Try to adjust for collision
-    /*if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
-        cellcontainer_moveShape(cc, &tempShape, UP);
+    if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
+        for (i = 0; i < 4; i++)
+            tempShape.c[i].y++;
         if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
-            cellcontainer_moveShape(cc, &tempShape, UP);
+            for (i = 0; i < 4; i++)
+                tempShape.c[i].y++;
     }
     if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
-        cellcontainer_moveShape(cc, &tempShape, DOWN);
+        for (i = 0; i < 4; i++)
+            tempShape.c[i].y -= 3;
         if (cellcontainer_checkShapeOverlapping(cc, &tempShape)) {
-            cellcontainer_moveShape(cc, &tempShape, DOWN);
+            for (i = 0; i < 4; i++)
+                tempShape.c[i].y--;
             if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
                 return;
         }
-    }*/
-    if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
-        return;
+    }
+    /*if (cellcontainer_checkShapeOverlapping(cc, &tempShape))
+        return;*/
 
     // wrapping up
     if (s->r == 3)
