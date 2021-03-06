@@ -69,6 +69,12 @@ void gameplay () {
 			locked = 1;
 
 			currentShape = new_shape(Shapes[i], 0, 4, 1, 0);
+			if (cellcontainer_checkShapeOverlapping(&cc, &currentShape)) {
+				// TODO:	put the score on appropriate position
+				highScores[0].score = score;
+				gameState = MAINMENU;
+				return;
+			}
 			cellcontainer_addShape(&cc, &currentShape);
 
 			cellcontainer_removeShape(&cc, &nextShape);
