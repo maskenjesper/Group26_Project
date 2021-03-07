@@ -14,10 +14,6 @@
 #define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
-char * itoaconv( int num );
-
-void init ();
-enum shape shapeGenerator ();
 
 /* Declare display-related functions */
 void quicksleep(int cyc);
@@ -44,6 +40,9 @@ void draw_frame (CellContainer *cc, int score);
 int getsw ();
 int getbtns ();
 
+/* Declare misc functions */
 void addScore (int *score, int rows);
-
 void addHighscoreEntry (ScoreInitialsPair highScore[], int newScore, char initial1, char initial2);
+char * itoaconv( int num );
+void init ();
+enum shape shapeGenerator ();

@@ -1,3 +1,5 @@
+/* Combining all .h files as well as declaring some functions for the main.c file */
+
 #pragma once
 
 #include "data.h"
@@ -18,12 +20,12 @@ void *stdin, *stdout, *stderr;
 
 
 void gameplay ();
-void interrupts_gameplay ();
-void interrupts_mainMenu ();
 void mainMenu ();
-void interrupts_highScore ();
 void highScore ();
 void gameEnd ();
+void interrupts_gameplay ();
+void interrupts_mainMenu ();
+void interrupts_highScore ();
 void interrupts_gameEnd ();
 
 typedef enum {GAMEPLAY, MAINMENU, HIGHSCORE, GAMEEND} GameState;

@@ -1,8 +1,5 @@
-/* mipslabdata.c
-   This file compiled 2015 by F Lundevall
-   from original code written by Axel Isaksson
-
-   For copyright and licensing, see file COPYING */
+/* This file is divided into two sections the first of which is code not written by us but taken from lab 3.
+    The second half however is additional code authored by Jakob Olsson and Kaan Özsan. */
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
@@ -164,4 +161,4 @@ const uint8_t const icon[] = {
 ///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
 
 uint8_t screenbuffer[4][128];	// screen pixels divided into 8p high horisontal strips
-uint16_t idcount = 0;
+uint16_t idcount = 0;			// Used to give Cell objects unique IDs

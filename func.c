@@ -1,8 +1,5 @@
-/* mipslabfunc.c
-    This file written 2015 by F Lundevall
-    Some parts are original code written by Axel Isaksson
-
-    For copyright and licensing, see file COPYING */
+/* This file is divided into two sections the first of which is code not written by us but taken from lab 3.
+    The second half however is additional code authored by Jakob Olsson and Kaan Özsan. */
 
 #include <stdlib.h>
 #include <stdint.h>   /* Declarations of uint_32 and the like */
@@ -197,6 +194,10 @@ char * itoaconv( int num )
 
 ///////////////////////////////////////////////////// Added code below this line /////////////////////////////////////////////////////
 
+/* Much of this function (init) is code taken from lab 3 main.c file but we've extracted it here to clean up the main function. 
+    However some of the code is also authored by us during lab 3, initialising buttons, timers and interrupts
+    
+    What this function does is initialize the system. It should be called once at the beginning of execution */
 void init () {
     /*
 	  This will set the peripheral bus clock to the same frequency
@@ -273,6 +274,7 @@ void init () {
 	enable_interrupt(); // globally enables interrupts
 }
 
+/* This function is used to generate random shape enums with the help of TMR2 as seed */
 enum shape shapeGenerator () {
     int n;
     srand(TMR2);
@@ -280,6 +282,7 @@ enum shape shapeGenerator () {
     return n;
 }
 
+/* Legacy function not used in the program currently. To be deleted */
 void display_printScore(char *s) {
     int i;
     char buffer[4];
@@ -315,6 +318,13 @@ void display_printScore(char *s) {
     
 }
 
+/* This function displays the data currently held in the global variable screenbuffer[4][128].
+    This is the main link between the screen and the programmer. Writing something to the display 
+    usually involves writing to the screenbuffer followed by calling this function.
+    
+    There are loads of helping functions (those prepended with screenbuffer_) in order to change the 
+    contents of the screenbuffer in an intuitive way. All these help to abstract away the low-level 
+    interaction with the display. */
 void display_screenbuffer () {
     int i, j;
 
@@ -334,6 +344,12 @@ void display_screenbuffer () {
     }
 }
 
+/* This function is used to print the score while the game is active. It does this by writing to the screenbuffer
+    the argument char *s will be shown in the bottom right corner of the screen prepended by "s"
+    
+    The reason this function is needed specifically instead of just using the display_string function is because
+    that function does not utilize the screenbuffer so trying to display text that way simultaneously as displaying 
+    screenbuffer will result in overwriting one or the other. */
 void screenbuffer_addScore (char *s) {
     int i, k;
     char buffer[4];
@@ -357,6 +373,12 @@ void screenbuffer_addScore (char *s) {
         }
 }
 
+/* Used in order to clear areas of the screenbuffer. The area to clear is determined
+    from the to points specified as arguments. 
+
+    This function and most other functions prepended by screenbuffer_ in some way modifies the contents
+    of the screenbuffer and should be followed by a call to display_screenbuffer in order to see any
+    changes on the screen */
 void screenbuffer_clear (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
     int i, k;
     for (i = x1; i < x2; i++)
@@ -364,16 +386,20 @@ void screenbuffer_clear (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
             screenbuffer_remove(i, k);
 }
 
+/* Used to add one pixel in the screenbuffer at a certain coordinate with range x: 1-128, y: 1-32.
+    The coordinate system starts from the top left corner of the screen. */
 void screenbuffer_add (uint8_t x, uint8_t y) {
     uint8_t row = y / 8;
     screenbuffer[row][x] |= 1 << y - row * 8;
 }
 
+/* Used to remove one pixel from the screenbuffer */
 void screenbuffer_remove (uint8_t x, uint8_t y) {
     uint8_t row = y / 8;
     screenbuffer[row][x] &= ~(1 << y - row * 8);
 }
 
+/* Used to add a collection of pixels to the screenbuffer in a configuration representing one Tetris cell. */
 void screenbuffer_addCell (uint8_t x, uint8_t y) {
     int i, k;
     for (i = y; i < y + 3; i++)
@@ -382,6 +408,7 @@ void screenbuffer_addCell (uint8_t x, uint8_t y) {
     screenbuffer_remove(x + 1, y + 1);
 }
 
+/* Used to remove one Tetris Cell from the screenbuffer */
 void screenbuffer_removeCell (uint8_t x, uint8_t y) {
     int i, k;
     for (i = y; i < y + 3; i++)
@@ -389,6 +416,7 @@ void screenbuffer_removeCell (uint8_t x, uint8_t y) {
             screenbuffer_remove(k, i);
 }
 
+/* Adds lines to screenbuffer marking the boundries during gameplay */
 void screenbuffer_drawBoundry () {
     int i;
     for (i = GAMEPLAN_Y1; i < GAMEPLAN_Y2; i++) {
@@ -402,6 +430,15 @@ void screenbuffer_drawBoundry () {
         screenbuffer_add(i, 14);
 }
 
+/* Prints all cells contained in the CellContainer argument at their respective coordinates.
+    
+    This function links to a new level of abstraction for manipulation of cells in the game.
+    All cells in the game should be added to a cellcontainer to keep track of them and all
+    this function does is update the screenbuffer with the cellcontainers content.
+    
+    Cellcontainer in turn also has many helping functions (prepended by cellcontainer_) and
+    these are used for intuitive interaction with the container and offers actions such as
+    adding specific cells, a collection of cells forming a shape, moving these shapes, etc. */
 void screenbuffer_updateCellcontainer (CellContainer cc) {
     int i, k;
     screenbuffer_clear(GAMEPLAN_X1, GAMEPLAN_Y1, GAMEPLAN_X2, GAMEPLAN_Y2);
@@ -411,6 +448,7 @@ void screenbuffer_updateCellcontainer (CellContainer cc) {
             screenbuffer_addCell(cc.cells[i].x, 3 * cc.cells[i].y);
 }
 
+/* This function is just a bunch of function calls which in combination updates the screen with a new frame */
 void draw_frame (CellContainer *cc, int score) {
     screenbuffer_updateCellcontainer(*cc);
     screenbuffer_drawBoundry();
@@ -420,15 +458,21 @@ void draw_frame (CellContainer *cc, int score) {
 }
 
 
-/********** input-related functions **********/
+/**************************************** input-related functions ****************************************/
+
+/* Returns the current status of the SWITCHES on the io-board represented by the lsn (left to right) in an int */
 int getsw () {
     return (PORTD >> 8) & 0xf;
 }
 
+/* Returns the current status of the BUTTONS on the io-board represented by the lsn (left to right) in an int */
 int getbtns () {
     return ((PORTD >> 4) & 0xe) | ((PORTF >> 1) & 0x1);
 }
 
+/**************************************** MISC ****************************************/
+
+/* Calculates the a score to be added */
 void addScore (int *score, int rows) {
     if (rows == 0) {
         return;
@@ -450,6 +494,7 @@ void addScore (int *score, int rows) {
     }
 }
 
+/* Adds an entry to a ScoreInitialsPair array at the correct position */
 void addHighscoreEntry (ScoreInitialsPair highScore[], int newScore, char initial1, char initial2) {
     int place;
     int i;

@@ -3,10 +3,11 @@
 /**************** CELL OBJECT ****************/
 /*
     Fields:
-    x: x-coordinate, range (0-125)
-    y: y-coordinate, range (0-7)
+    x: x-coordinate
+    y: y-coordinate
     a: active, (true/false)
-    p: player, (1,2) */
+    p: collision 
+    id: unique id */
 typedef struct Cell {
     uint8_t x, y, a, p;
     uint16_t id;
@@ -16,10 +17,8 @@ Cell new_cell(uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 /**************** SHAPE OBJECT ****************/
 /*
     Fields:
-    x: centercell[1] x-coordinate, range (0-125)
-    y: centercell[1] y-coordinate, range (0-7)
     a: active, (true/false)
-    p: player, (1,2)
+    p: collision
     s: type of shape
     c: instances of cells with relative position[2]
     
@@ -37,7 +36,7 @@ Shape new_shape(shape, uint8_t x, uint8_t y, uint8_t a, uint8_t p);
 
 /**************** CELLCONTAINER OBJECT ****************/
 /*
-     */
+    Just contains an array of cell objects with alot of helping functions to manipulate these */
 #define CELLCONTAINER_LENGTH 810
 typedef struct CellContainer {
     Cell cells[CELLCONTAINER_LENGTH];
@@ -60,7 +59,7 @@ void cellcontainer_removeRow (CellContainer *cc, uint8_t x);
 
 /**************** SCORE OBJECT ****************/
 /*
-    */
+    Representing one row in the highscore list. A pair of initials and a score */
 typedef struct ScoreInitialsPair {
     char c1, c2;
     int score;

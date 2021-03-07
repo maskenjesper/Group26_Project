@@ -4,6 +4,7 @@
 #include "lib.h"
 #include <string.h>
 
+/*** Global variables ***/
 ScoreInitialsPair highScores[4];
 int score = 0;
 char initial[] = {'A', 'A'};
@@ -16,9 +17,7 @@ Shape currentShape, nextShape;
 Cell C1, C2, C3, C4;
 
 int main () {
-
 	init();
-
 	while (running) {
 		switch (gameState) {
 			case GAMEPLAY:
@@ -35,10 +34,10 @@ int main () {
 				break;
 		}
 	}
-
 	return 0;
 }
 
+/* Where the main gameplay takes place */
 void gameplay () {
 	init_cellcontainer(&cc);
 
@@ -92,6 +91,7 @@ void gameplay () {
 		}
 }
 
+/* Where the scoreboard is displayed */
 void highScore () {
 	display_string(0, "High Scores");
 
@@ -117,6 +117,7 @@ void highScore () {
 			return;
 }
 
+/* Entry point of the program. Where the main menu is displayed */
 void mainMenu () {
 	display_string(0, "   TETRIS");
 	display_string(1, "1. Start game");
@@ -136,6 +137,7 @@ void mainMenu () {
 	}
 }
 
+/* Screen shown after game ends. Allows for inputing initials to save score with. */
 void gameEnd () {
 	gameState = GAMEEND;
 	display_string(0, "GAME OVER");
@@ -152,6 +154,8 @@ void gameEnd () {
 	}
 }
 
+/* Called when interrupts happen. This function delagates the logic to different functions depending on the gameState global variable.
+	Also clears the flags. */
 void user_isr () {
 
 	switch (gameState) {
@@ -175,6 +179,7 @@ void user_isr () {
 	IFS(0) &= ~0x1000;
 }
 
+/* Interrupts for GAMEPLAY state */
 void interrupts_gameplay () {
 	/********** TMR2 Interrupt **********/
 	if ((IFS(0) >> 8) & 0x1) {	// Move testshape
@@ -206,6 +211,7 @@ void interrupts_gameplay () {
 	}
 }
 
+/* Interrupts for HIGHSCORE state */
 void interrupts_highScore () {
 	/*********** SW1 Interrupt ***********/
 	if ((IFS(0) >> 7) & 0x1) {
@@ -213,10 +219,12 @@ void interrupts_highScore () {
 	}
 }
 
+/* Interrupts for MAINMENU state */
 void interrupts_mainMenu() {
 
 }
 
+/* Interrupts for GAMEEND state */
 void interrupts_gameEnd () {
 	/********** TMR3 Interrupt **********/
 	if ((IFS(0) >> 12) & 0x1) {

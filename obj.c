@@ -1,9 +1,16 @@
+/* This file contains functions that are associated with specific objects to make interaction
+    with these more intuitive.
+    
+    Alot of the functions are built from eachother to create more and more complex functions
+    This file contains most of the functions that should be used in the main program loop. */
+
 #include <stdlib.h>
 #include <stdint.h>
 #include "obj.h"
 #include "lib.h"
 
 /**************** CELL  ****************/
+
 /*** CONSTRUCTORS ***/
 Cell new_cell (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
     Cell c = {.x = x, .y = y, .a = a, .p = p, .id = idcount++};
@@ -11,6 +18,7 @@ Cell new_cell (uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 }
 
 /**************** SHAPE ****************/
+
 /*** CONSTRUCTORS ***/
 Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
     Shape S = {.s = s, .a = a, .p = p};
@@ -66,13 +74,19 @@ Shape new_shape (shape s, uint8_t x, uint8_t y, uint8_t a, uint8_t p) {
 }
 
 /**************** CELLCONTAINER ****************/
+
 /*** INITIALIZATION ***/
+
+/* Initializes a cellcontainer to contain only inactive cells */
 void init_cellcontainer (CellContainer *cc) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         cc->cells[i] = new_cell(0, 0, 0, 0);
 }
+
 /*** FUNCTIONS ***/
+
+/* Adds a cell to the container */
 void cellcontainer_addCell (CellContainer *cc, Cell *c) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
@@ -81,6 +95,8 @@ void cellcontainer_addCell (CellContainer *cc, Cell *c) {
             break;
         }
 }
+
+/* Removes a cell from the container */
 void cellcontainer_removeCell (CellContainer *cc, Cell *c) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
@@ -89,6 +105,8 @@ void cellcontainer_removeCell (CellContainer *cc, Cell *c) {
             break;
         }
 }
+
+/* Moves a cell one step in a given direction */
 void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d) {
     if (d == UP)
         c->y -= 1;
@@ -100,6 +118,8 @@ void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d) {
         c->x -= 1;
     cellcontainer_updateCell(cc, c);
 }
+
+/* Updates a cell in the container with new data */
 void cellcontainer_updateCell (CellContainer *cc, Cell *c) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
@@ -108,6 +128,8 @@ void cellcontainer_updateCell (CellContainer *cc, Cell *c) {
             break;
         }
 }
+
+/* Checks if something is in the way if moving cell in a certain direction */
 int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d) {
     int i;
     if (d == UP && c->y == GAMEPLAN_Y1 ||
@@ -164,16 +186,23 @@ int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d) {
     }
     return 0;
 }
+
+/* Adds multiple cells to the container by adding a whole shape object.
+    All the shapes cells are added. */
 void cellcontainer_addShape (CellContainer *cc, Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         cellcontainer_addCell(cc, &s->c[i]);
 }
+
+/* Removes all cells of a specific shape from the container */
 void cellcontainer_removeShape (CellContainer *cc, Shape *s) {
     int i;
     for (i = 0; i < 4; i++)
         cellcontainer_removeCell(cc, &s->c[i]);
 }
+
+/* Moves all cells belonging to a specific shape */
 int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     int i;
     for (i = 0; i < 4; i++) {
@@ -196,6 +225,10 @@ int cellcontainer_moveShape (CellContainer *cc, Shape *s, DIR d) {
     }
     return 0;
 }
+
+/* Changes the relative positions of the cells belonging to a shape so that the shape rotates
+    This is done differently for each shape. It also checks for collisions and adjusts its horizontal
+    position if detected to try to adjust */
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
     if (s->s == BOX)
         return;
@@ -491,6 +524,8 @@ void cellcontainer_rotateShape (CellContainer *cc, Shape *s) {
         cellcontainer_updateCell(cc, &s->c[i]);
     }
 }
+
+/* Checks if a shape is overlapping something and returns 1 if true, else 0. */
 int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
     int i, k, m;
     for (i = 0; i < 4; i++) {
@@ -517,6 +552,9 @@ int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
     }
     return 0;
 }
+
+/* Scans the container for complete rows and deletes the cells in this row if detected,
+    moves the other cells downward and returns how many rows were deleted. */
 int cellcontainer_scanForRows (CellContainer *cc) {
     int x, y, m, n;
     
@@ -539,6 +577,8 @@ int cellcontainer_scanForRows (CellContainer *cc) {
     }
     return 0;
 }
+
+/* Returns true if a cell is at the position */
 int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) {
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
@@ -549,6 +589,8 @@ int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) {
         }
     }
 }
+
+/* Removes a row at coordinate x */
 void cellcontainer_removeRow (CellContainer *cc, uint8_t x) {
     int i, k, m;
     for (i = 0; i < GAMEPLAN_Y2 / 3; i++) {
