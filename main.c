@@ -44,6 +44,8 @@ void gameplay () {
 
 	screenbuffer_drawBoundry();
 
+	PR2 = 31250;
+
 	score = 0;
 
 	// Adds some cells at the bottom of the gameplan
@@ -83,6 +85,10 @@ void gameplay () {
 			while (locked)
 				if (gameState != GAMEPLAY)
 					return;
+
+			// Speedup game
+			if (PR2 > 15000)
+				PR2 -= 1000;
 		}
 }
 
