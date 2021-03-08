@@ -43,19 +43,19 @@ typedef struct CellContainer {
 } CellContainer;
 typedef enum DIR {UP, DOWN, RIGHT, LEFT} DIR;
 void init_cellcontainer (CellContainer *cc);
-void cellcontainer_addCell(CellContainer *cc, Cell *c);
-void cellcontainer_removeCell(CellContainer *cc, Cell *c);
-void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d);
-void cellcontainer_updateCell (CellContainer *cc, Cell *c);
+void cellcontainer_addCell(CellContainer *cc, Cell *c);                     // Kaan
+void cellcontainer_removeCell(CellContainer *cc, Cell *c);                  // Kaan
+void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d);            // Kaan
+void cellcontainer_updateCell (CellContainer *cc, Cell *c);                 // Kaan
 int cellcontainer_cellCheckCollision (CellContainer *cc, Cell *c, DIR d);
 void cellcontainer_addShape(CellContainer *cc, Shape *s);
 void cellcontainer_removeShape (CellContainer *cc, Shape *s);
 int cellcontainer_moveShape(CellContainer *cc, Shape *s, DIR d);
 void cellcontainer_rotateShape (CellContainer *cc, Shape *s);
 int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s);
-int cellcontainer_scanForRows (CellContainer *cc);
-int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y);
-void cellcontainer_removeRow (CellContainer *cc, uint8_t x);
+int cellcontainer_scanForRows (CellContainer *cc);                          // Kaan
+int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y);      // Kaan
+void cellcontainer_removeRow (CellContainer *cc, uint8_t x);                // Kaan
 
 /**************** SCORE OBJECT ****************/
 /*

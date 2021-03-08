@@ -87,7 +87,7 @@ void init_cellcontainer (CellContainer *cc) {
 /*** FUNCTIONS ***/
 
 /* Adds a cell to the container */
-void cellcontainer_addCell (CellContainer *cc, Cell *c) {
+void cellcontainer_addCell (CellContainer *cc, Cell *c) { // Kaan
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc->cells[i].a == 0) {
@@ -97,7 +97,7 @@ void cellcontainer_addCell (CellContainer *cc, Cell *c) {
 }
 
 /* Removes a cell from the container */
-void cellcontainer_removeCell (CellContainer *cc, Cell *c) {
+void cellcontainer_removeCell (CellContainer *cc, Cell *c) { // Kaan
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc->cells[i].id == c->id) {
@@ -107,7 +107,7 @@ void cellcontainer_removeCell (CellContainer *cc, Cell *c) {
 }
 
 /* Moves a cell one step in a given direction */
-void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d) {
+void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d) { // Kaan
     if (d == UP)
         c->y -= 1;
     else if (d == DOWN)
@@ -120,7 +120,7 @@ void cellcontainer_moveCell (CellContainer *cc, Cell *c, DIR d) {
 }
 
 /* Updates a cell in the container with new data */
-void cellcontainer_updateCell (CellContainer *cc, Cell *c) {
+void cellcontainer_updateCell (CellContainer *cc, Cell *c) { // Kaan
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++)
         if (cc->cells[i].id == c->id) {
@@ -555,7 +555,7 @@ int cellcontainer_checkShapeOverlapping (CellContainer *cc, Shape *s) {
 
 /* Scans the container for complete rows and deletes the cells in this row if detected,
     moves the other cells downward and returns how many rows were deleted. */
-int cellcontainer_scanForRows (CellContainer *cc) {
+int cellcontainer_scanForRows (CellContainer *cc) { // Kaan
     int x, y, m, n;
     
     Cell *cellptr[10];
@@ -579,7 +579,7 @@ int cellcontainer_scanForRows (CellContainer *cc) {
 }
 
 /* Returns true if a cell is at the position */
-int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) {
+int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) { // Kaan
     int i;
     for (i = 0; i < CELLCONTAINER_LENGTH; i++) {
         if (cc->cells[i].a == 1 &&
@@ -591,7 +591,7 @@ int cellcontainer_cellAtPos (CellContainer *cc, uint8_t x, uint8_t y) {
 }
 
 /* Removes a row at coordinate x */
-void cellcontainer_removeRow (CellContainer *cc, uint8_t x) {
+void cellcontainer_removeRow (CellContainer *cc, uint8_t x) { // Kaan
     int i, k, m;
     for (i = 0; i < GAMEPLAN_Y2 / 3; i++) {
         for (k = 0; k < CELLCONTAINER_LENGTH; k++) {

@@ -8,17 +8,14 @@
 ScoreInitialsPair highScores[4];
 int score = 0;
 char initial[] = {'A', 'A'};
-int running = 1;
 GameState gameState = MAINMENU;
-int timeoutcount = 0;
 int locked;
 CellContainer cc;
 Shape currentShape, nextShape;
-Cell C1, C2, C3, C4;
 
 int main () {
 	init();
-	while (running) {
+	while (1) {
 		switch (gameState) {
 			case GAMEPLAY:
 				gameplay();
@@ -30,7 +27,7 @@ int main () {
 				highScore();
 				break;
 			case GAMEEND:
-				highScore();
+				gameEnd();
 				break;
 		}
 	}
@@ -39,19 +36,18 @@ int main () {
 
 /* Where the main gameplay takes place */
 void gameplay () {
+
+	/*** Initialization ***/
 	init_cellcontainer(&cc);
-
 	screenbuffer_drawBoundry();
-
 	PR2 = 31250;
-
 	score = 0;
 
 	// Adds some cells at the bottom of the gameplan
 	int m;
 	for (m = 0; m < 10; m++) {
-		C3 = new_cell(GAMEPLAN_X2, m, 1, 0);
-		cellcontainer_addCell(&cc, &C3);
+		Cell C = new_cell(GAMEPLAN_X2, m, 1, 0);
+		cellcontainer_addCell(&cc, &C);
 	}
 
 	// Creates randomized array of shape enums
@@ -61,19 +57,20 @@ void gameplay () {
 	for (i = 0; i < NUMBER_OF_SHAPES; i++)
 		Shapes[i] = shapeGenerator();
 
-	// Main game-loop
+	/*** Main game-loop ***/
 	while (1)
 		for (i = 0; i < NUMBER_OF_SHAPES; i++ ) {
 			locked = 1;
 
+			// Current shape
 			currentShape = new_shape(Shapes[i], 0, 4, 1, 0);
 			if (cellcontainer_checkShapeOverlapping(&cc, &currentShape)) {
-				gameEnd();
-				gameState = MAINMENU;
+				gameState = GAMEEND;
 				return;
 			}
 			cellcontainer_addShape(&cc, &currentShape);
 
+			// Next shape
 			cellcontainer_removeShape(&cc, &nextShape);
 			if (i < NUMBER_OF_SHAPES - 1)
 				nextShape = new_shape(Shapes[i + 1], 105, 1, 1, 0);
@@ -81,6 +78,7 @@ void gameplay () {
 				nextShape = new_shape(Shapes[0], 105, 1, 1, 0);
 			cellcontainer_addShape(&cc, &nextShape);
 
+			// Function locked until interrupt unlocks it
 			while (locked)
 				if (gameState != GAMEPLAY)
 					return;
@@ -107,6 +105,7 @@ void highScore () {
 			entry[pos++] = *score;
 			score++;
 		}
+		entry[pos] = 0;
 		display_string(i, entry);
 	}
 
@@ -139,7 +138,6 @@ void mainMenu () {
 
 /* Screen shown after game ends. Allows for inputing initials to save score with. */
 void gameEnd () {
-	gameState = GAMEEND;
 	display_string(0, "GAME OVER");
 	display_string(1, "Type Initials");
 	
@@ -239,6 +237,6 @@ void interrupts_gameEnd () {
 	}
 	/*********** SW1 Interrupt ***********/
 	if ((IFS(0) >> 7) & 0x1) {
-		gameState = GAMEPLAY;
+		gameState = MAINMENU;
 	}
 }
