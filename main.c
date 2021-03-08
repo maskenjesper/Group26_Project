@@ -105,7 +105,7 @@ void highScore () {
 			entry[pos++] = *score;
 			score++;
 		}
-		entry[pos] = 0;
+		entry[pos] = 0;			// Add nullchar at end
 		display_string(i, entry);
 	}
 
@@ -219,7 +219,7 @@ void interrupts_highScore () {
 
 /* Interrupts for MAINMENU state */
 void interrupts_mainMenu() {
-
+	// nop
 }
 
 /* Interrupts for GAMEEND state */

@@ -68,25 +68,6 @@ void display_string (int line, char *s) {
             textbuffer[line][i] = ' ';
 }
 
-void display_image (int x, const uint8_t *data) {
-    int i, j;
-    
-    for (i = 0; i < 4; i++) {
-        DISPLAY_CHANGE_TO_COMMAND_MODE;
-
-        spi_send_recv(0x22);
-        spi_send_recv(i);
-        
-        spi_send_recv(x & 0xF);
-        spi_send_recv(0x10 | ((x >> 4) & 0xF));
-        
-        DISPLAY_CHANGE_TO_DATA_MODE;
-        
-        for (j = 0; j < 32; j++)
-            spi_send_recv(~data[i*32 + j]);
-    }
-}
-
 void display_update (void) {
     int i, j, k;
     int c;
@@ -280,42 +261,6 @@ enum shape shapeGenerator () {
     srand(TMR2);
     n = rand() % 7;
     return n;
-}
-
-/* Legacy function not used in the program currently. To be deleted */
-void display_printScore(char *s) {
-    int i;
-    char buffer[4];
-    buffer[0] = 's';
-    for (i = 1; i < 4; i++)
-        if (*s) {
-            buffer[i] = *s;
-            s++;
-        } 
-        else
-            buffer[i] = ' ';
-    //////////////////////////////////////
-    int j, k;
-    int c;
-
-    DISPLAY_CHANGE_TO_COMMAND_MODE;
-    spi_send_recv(0x22);
-    spi_send_recv(3);
-    
-    spi_send_recv(0x0);
-    spi_send_recv(0x10);
-    
-    DISPLAY_CHANGE_TO_DATA_MODE;
-    
-    for (j = 0; j < 4; j++) {
-        c = buffer[j];
-        if (c & 0x80)
-            continue;
-        
-        for (k = 0; k < 8; k++)
-            spi_send_recv(font[c*8 + k]);
-    }
-    
 }
 
 /* This function displays the data currently held in the global variable screenbuffer[4][128].
